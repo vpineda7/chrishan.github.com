@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8">
-        <title>My super title</title>
+        <title>Clustered Hacker News</title>
         <link rel="stylesheet" href="/theme/css/main.css">
                 
         <!--[if IE]>
@@ -14,29 +14,69 @@
         <header id="banner" class="body">
                 <h1><a href="/">Han Xiaogang's Blog </a></h1>
                 <nav><ul>
-                                                                                    <li class="active"><a href="/category/python.html">Python</a></li>
+                                                    <li><a href="/pages/about.html">About</a></li>
+                                    <li><a href="/pages/project.html">Project</a></li>
+                                    <li><a href="/pages/research.html">Research</a></li>
+                                                                    <li class="active"><a href="/category/.html"></a></li>
                                                 </ul></nav>
         </header><!-- /#banner -->
         <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/my-super-post.html" rel="bookmark"
-           title="Permalink to My super title">My super title</a></h1>
+        <a href="/clustered-hacker-news.html" rel="bookmark"
+           title="Permalink to Clustered Hacker News">Clustered Hacker News</a></h1>
           </header>
 
     <div class="entry-content">
       <footer class="post-info">
-        <abbr class="published" title="2010-12-03T10:20:00">
-                Fri 03 December 2010
+        <abbr class="published" title="2012-09-22T00:00:00">
+                Sat 22 September 2012
         </abbr>
 
                 <address class="vcard author">
-                By <a class="url fn" href="/author/alexis-metaireau.html">Alexis Metaireau</a>
+                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
         </address>
-        <p>In <a href="/category/python.html">Python</a>. </p>
-<p>tags: <a href="/tag/pelican.html">pelican</a><a href="/tag/publishing.html">publishing</a></p>
-</footer><!-- /.post-info -->      <p>This is the content of my super blog post.</p>
+        <p>In <a href="/category/.html"></a>. </p>
+<p>tags: <a href="/tag/.html">[]</a></p>
+</footer><!-- /.post-info -->      <h3>The goal</h3>
+<p>Topic based organization of information sources might be a solution to
+the information (cognition) overload problem on the social Web. For
+example, There are lots of news posted everyday on Hacker News, a
+startup news aggregation site. The problem is that different users have
+different preference on the type of news on HN, some may interest in
+startup stories, while others prefer programming stories. Therefore, I
+implemented this experimental idea to cluster the frontpage stories on
+HN, based on the topic of the stories.</p>
+<h3>The demo page</h3>
+<p><a href="http://dataoptimize.appspot.com/hncluster">http://dataoptimize.appspot.com/hncluster</a></p>
+<h3>The algorithm</h3>
+<p>The algorithm is standard hierarchical clustering - recursively
+combining the most similar resources to construct a hierarchical tree.</p>
+<h4>Steps</h4>
+<ol>
+<li>For each news of the 30 stories, we extract its top tags in
+    delicious, its comments on HN, and its original content.</li>
+<li>For the collection of 30 stories, we extract the features of each
+    stories using TF-iDF</li>
+<li>Run hierarchical clustering</li>
+</ol>
+<h3>The screenshot</h3>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/clusteredhn.jpg" /></p>
+<h3>The implementation</h3>
+<p>Libraries and APIs:
+<a href="http://www.michael-noll.com/projects/delicious-python-api/">deliciousapi</a>,
+<a href="http://www.alchemyapi.com/">alchemyapi</a>.
+<a href="http://api.ihackernews.com/">ihackernews</a></p>
+<p>CSS inspired by <a href="http://scaledinnovation.com/analytics/trees/dendrograms.html">Representing Trees with
+Dendrograms</a></p>
+<h4>Open problems</h4>
+<ol>
+<li>Currently only the stories on the frontpage are clustered. The data
+    is not very large.</li>
+<li>Currently the clustering accuracy is not very good. More advanced
+    algorithms are needed.</li>
+</ol>
     </div><!-- /.entry-content -->
     
   </article>

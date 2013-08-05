@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>Contextual Subtitle for Language Learning</title>
+        <link rel="stylesheet" href="/theme/css/main.css">
+                
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Han Xiaogang's Blog </a></h1>
+                <nav><ul>
+                                                    <li><a href="/pages/about.html">About</a></li>
+                                    <li><a href="/pages/project.html">Project</a></li>
+                                    <li><a href="/pages/research.html">Research</a></li>
+                                                                    <li class="active"><a href="/category/.html"></a></li>
+                                                </ul></nav>
+        </header><!-- /#banner -->
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/contextual-subtitle-for-language-learning.html" rel="bookmark"
+           title="Permalink to Contextual Subtitle for Language Learning">Contextual Subtitle for Language Learning</a></h1>
+          </header>
+
+    <div class="entry-content">
+      <footer class="post-info">
+        <abbr class="published" title="2012-09-22T00:00:00">
+                Sat 22 September 2012
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+        <p>In <a href="/category/.html"></a>. </p>
+<p>tags: <a href="/tag/.html">[]</a></p>
+</footer><!-- /.post-info -->      <p>As a Chinese, I occasionally learn oral English via watching American TV
+Series. One problem is about the subtitle. If I use the Chinese
+subtitle, then I rely on the subtitle for understanding, rather than
+"hearing"; otherwise, if I use the English subtitle, then there are
+regular words that are out of my vocabulary, which makes the experience
+not enjoyable. Then I come up with the idea - a mixed subtitle.</p>
+<p>I wrote a python script to perform the creation of the mixed subtitle,
+which go through the English subtitle file (.srt format) of the movie to
+check for unacquainted word and add the Chinese translation of the word
+immediately after the word. Here are two screenshots from the subtitle
+generated for <em>The Big Bang theory season 2</em>.</p>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/movie1.jpg" />
+<img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/movie2.jpg" /></p>
+<p>To perform the generation, first I need an English-Chinese dict. The
+<a href="http://projects.ldc.upenn.edu/Chinese/">LDC</a> provides an such
+<a href="http://www.ldc.upenn.edu/Projects/Chinese/docs/ldc_ec_dict.2.0.txt">wordlist</a>.
+Second, an common English word list is needed. This is very easy to
+find. I use
+<a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYwdECDA/known.txt">resouce1</a>,
+<a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYorICDA/known3000.txt">resource2</a>,
+and
+<a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYqdkCDA/knownVOA.txt">resouce3</a>
+as the known wordlist. <a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYkeECDA/local.txt">One more
+file</a>
+is created to store the words frequently appears in the movie I am
+watching (such as names).</p>
+<p>The source code file can be download from the github
+<a href="http://gist.github.com/647077">gist</a></p>
+<h3>Problems</h3>
+<ul>
+<li>There are still many words not included in this corpus, which are
+    therefore not translated if any;</li>
+<li>The known wordlist is fixed, which is not a good model of each
+    individual audience. There might be some computational model to
+    simulate the vocabulary of a user, which I will explore in the
+    future.</li>
+</ul>
+<h3>Todos</h3>
+<ul>
+<li>introduce larger English-Chinese dict;</li>
+<li>more contextual translation for word sense disambiguation;</li>
+<li>dynamic personal vocabulary modeling;</li>
+<li>contextual subtitle as a service: build a website to provide
+    personalized vocabulary modeling and mixed subtitle generation.</li>
+</ul>
+<p>Anyway, the current version is already in use:). I have enjoyed many
+episodes of The Big Bang Theory with the mixed subtitle.</p>
+    </div><!-- /.entry-content -->
+    
+  </article>
+</section>
+        <section id="extras" class="body">
+                        <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                                                    <li><a href="http://getpelican.com/">Pelican</a></li>
+                                                    <li><a href="http://python.org/">Python.org</a></li>
+                                                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                                                    <li><a href="#">You can modify those links in your config file</a></li>
+                                                </ul>
+                </div><!-- /.blogroll -->
+                                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/None" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            
+                                                    <li><a href="#">You can add links in your config file</a></li>
+                                                    <li><a href="#">Another social link</a></li>
+                                                </ul>
+                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'chrishan';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

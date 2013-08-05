@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>Using Google Books API to Improve NTU Library Book Search</title>
+        <link rel="stylesheet" href="/theme/css/main.css">
+                
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Han Xiaogang's Blog </a></h1>
+                <nav><ul>
+                                                    <li><a href="/pages/about.html">About</a></li>
+                                    <li><a href="/pages/project.html">Project</a></li>
+                                    <li><a href="/pages/research.html">Research</a></li>
+                                                                    <li class="active"><a href="/category/.html"></a></li>
+                                                </ul></nav>
+        </header><!-- /#banner -->
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/using-google-books-api-to-improve-ntu-library-book-search.html" rel="bookmark"
+           title="Permalink to Using Google Books API to Improve NTU Library Book Search">Using Google Books API to Improve NTU Library Book Search</a></h1>
+          </header>
+
+    <div class="entry-content">
+      <footer class="post-info">
+        <abbr class="published" title="2012-09-22T00:00:00">
+                Sat 22 September 2012
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+        <p>In <a href="/category/.html"></a>. </p>
+<p>tags: <a href="/tag/.html">[]</a></p>
+</footer><!-- /.post-info -->      <h3>Introduction</h3>
+<p>NTU library search
+(<a href="http://ntulibrarysearch.appspot.com/">http://ntulibrarysearch.appspot.com/</a>)
+is an app to facilitate searching books in <a href="http://opac.ntu.edu.sg/">NTU
+library</a> with improved accuracy and relevance.
+It is powered by <a href="http://code.google.com/apis/books/">Google Books search
+api</a>. The application is deployed on
+Google Appengine and the <a href="https://github.com/chrishan/ntulibrarysearch">source
+code</a> is available on
+GitHub.</p>
+<h3>Why?</h3>
+<p>The book search provided by NTU is pretty poor. I can seldom find the
+most relevant books. Below are some search examples for comparison.</p>
+<h4>"game engine"</h4>
+<p>Books returned from NTU library for "game engine"</p>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/gameenginentu.jpg" /></p>
+<p>Books returned from the app for "game engine"</p>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/gameenginemine.jpg" /></p>
+<h3>"ruby"</h3>
+<p>Books returned from NTU library for "ruby"</p>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/rubyntu.jpg" /></p>
+<p>Books returned from the app for "ruby"</p>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/rubymine.jpg" /></p>
+<p>It is very obvious that the results returned from NTU library search are
+of low relevance and even confusing. On the other hand, the results from
+the app are very accurate.</p>
+<h3>How it works</h3>
+<ol>
+<li>submit query keywords to the server;</li>
+<li>Retrieve top matched books from Google Books API;</li>
+<li>Using ISBN of retrieved books to query NTU library</li>
+</ol>
+<h3>Known Limitations</h3>
+<ul>
+<li>Only the first page (8 books) of books was retrieved from Google
+    Books API. Therefore the search result shown is always less than 8
+    books</li>
+</ul>
+<h3>Final Words</h3>
+<p>Putting Google Books search api on top of the library search interface
+is very simple and the resulting improvement is very obvious for me.
+Hopefully the NTU library will adapt such advanced search api to their
+database to make their search function usable.</p>
+<p>Dear all NTU library users, please try the app
+(<a href="http://ntulibrarysearch.appspot.com/">http://ntulibrarysearch.appspot.com/</a>)
+and save your time find the books you want.</p>
+    </div><!-- /.entry-content -->
+    
+  </article>
+</section>
+        <section id="extras" class="body">
+                        <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                                                    <li><a href="http://getpelican.com/">Pelican</a></li>
+                                                    <li><a href="http://python.org/">Python.org</a></li>
+                                                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                                                    <li><a href="#">You can modify those links in your config file</a></li>
+                                                </ul>
+                </div><!-- /.blogroll -->
+                                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/None" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            
+                                                    <li><a href="#">You can add links in your config file</a></li>
+                                                    <li><a href="#">Another social link</a></li>
+                                                </ul>
+                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'chrishan';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
