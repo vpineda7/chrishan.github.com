@@ -1,167 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Han Xiaogang's Blog - </title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
-        <link href="/" type="application/atom+xml" rel="alternate" title="Han Xiaogang's Blog ATOM Feed" />
-        
+	<link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+	<!--<link rel="stylesheet/less" type="text/css" href="/theme/css/style.less">-->
+	<!--<script src="/theme/js/less.js" type="text/javascript"></script>-->
+	<link rel="stylesheet" type="text/css" href="/theme/css/pygments.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:800,400,300|Inconsolata' rel='stylesheet' type='text/css'>
 
-        <!--[if IE]>
-                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href="/" type="application/atom+xml" rel="alternate" title="Han Xiaogang's Blog ATOM Feed" />
+	
+	
+			<title>Han Xiaogang's Blog</title>
+		<meta charset="utf-8" />
+	</head>
+<body>
+	<section id="sidebar">
+		<figure id="user_logo">
+            <a href=""><div class="logo">&nbsp;</div></a>
+		</figure>
 
-        <!--[if lte IE 7]>
-                <link rel="stylesheet" type="text/css" media="all" href="/css/ie.css"/>
-                <script src="/js/IE8.js" type="text/javascript"></script><![endif]-->
+		<div class="user_meta">
+            <h1 id="user"><a href="" class="">Han Xiaogang</a></h1>
+			<h2></h2>
+						<ul>
+																			<li><a href="/pages/about.html">About</a></li>
+											<li><a href="/pages/project.html">Project</a></li>
+											<li><a href="/pages/research.html">Research</a></li>
+																		<li><a href="http://getpelican.com/">Pelican</a></li>
+									<li><a href="http://python.org/">Python.org</a></li>
+									<li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+									<li><a href="#">You can modify those links in your config file</a></li>
+							</ul>
+		</div>
+		<footer>
+			<address>
+				Powered by <a href="http://pelican.notmyidea.org/">Pelican</a>,
+		                theme by <a href="https://github.com/wting/pelican-svbtle">wting</a>.
+			</address>
+		</footer>
+	</section>
 
-        <!--[if lt IE 7]>
-                <link rel="stylesheet" type="text/css" media="all" href="/css/ie6.css"/><![endif]-->
+	<section id="posts">
+			<header>
+		<h1>Han Xiaogang's blog</h1>
+		<h3>
+			<script type="text/javascript">
+				var currentDate = new Date();
+				var day = currentDate.getDate();
+				var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+				var month = monthNames[currentDate.getMonth()].toUpperCase();
+				var year = currentDate.getFullYear();
+				document.write(month + " " + day + ", " + year);
+			</script>
+		</h3>
+	</header>
 
-</head>
-
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/index.html">Han Xiaogang's Blog </a></h1>
-                <nav><ul>
-                                                                    <li ><a href="/pages/about.html">About</a></li>
-                                    <li ><a href="/pages/project.html">Project</a></li>
-                                    <li ><a href="/pages/research.html">Research</a></li>
-                                                <li><a href="/">Archives</a></li>
-                                </ul></nav>
-        </header><!-- /#banner -->
-
-                 <section id="content" class="body">
-        <aside id="featured"><article>
-                <h1 class="entry-title"><a href="/a-twitter-bot-for-programmingreddit.html">A Twitter Bot for programming.reddit</a></h1>
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <p>Being a long-term programming.reddit reader, I have tried many ways (web
+	<dl>
+		<ol>
+							<li>
+					<h1 class="title">
+						<a href="/a-twitter-bot-for-programmingreddit.html" rel="bookmark" title="Permalink to A Twitter Bot for programming.reddit">A Twitter Bot for programming.reddit</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <p>Being a long-term programming.reddit reader, I have tried many ways (web
 browsing, GReader, and now by following @reddit_prog on twitter) to
 follow stories appearing there. Following @reddit_prog is very
 comfortable for me, because it saved me a lot of time and it is easy to
-skip irrelevant stories at hand. The problems is that there are still
-too much information dumped by it, most of which are irrelevant
-information. This inspired me to write a programming.reddit twitter bot.</p>
-<p>The bot <a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a> works
-by continuously monitoring hot feeds on
-<a href="http://www.reddit.com/r/programming/">http://www.reddit.com/r/programming/</a>.
-Once a story reaches 5 comments, it will tweet it.</p>
-<p>The bot is deployed on <a href="http://code.google.com/appengine/">Google
-Appengine</a> with its <a href="http://code.google.com/appengine/docs/python/config/cron.html">cron
-service</a>.
-<a href="http://github.com/joshthecoder/tweepy">Tweepy</a> is used to send new
-tweets. <a href="http://www.feedparser.org/">Feedparser</a> is used to parse the
-feed
-(<a href="http://www.reddit.com/r/programming/.rss">http://www.reddit.com/r/programming/.rss)</a>).
-<a href="http://bit.ly/">Bit.ly</a> api is used to shorten the URLs. Every 1 hour
-the bot check for stories on programming.reddit and whether the
-corresponding comments exceed 5. If so, the title of the story, the
-original link and the reddit link of the story are extracted and sent
-out.</p>
-<p>Have a try and reduce a bit of your information overload!
-<a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a></p>
-        </article></aside><!-- /#featured -->
-                        <h1>Other articles</h1>
-                <hr />
-                    <ol id="posts-list" class="hfeed">
-                        <li><article class="hentry">
-                <header>
-                        <h1><a href="/clustered-hacker-news.html" rel="bookmark" title="Permalink to Clustered Hacker News">Clustered Hacker News</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <h3>The goal</h3>
+skip irrelevant stories at ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/clustered-hacker-news.html" rel="bookmark" title="Permalink to Clustered Hacker News">Clustered Hacker News</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <h3>The goal</h3>
 <p>Topic based organization of information sources might be a solution to
 the information (cognition) overload problem on the social Web. For
 example, There are lots of news posted everyday on Hacker News, a
 startup news aggregation site. The problem is that different users have
-different preference on the ...</p>
-                <a class="readmore" href="/clustered-hacker-news.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/contextual-subtitle-for-language-learning.html" rel="bookmark" title="Permalink to Contextual Subtitle for Language Learning">Contextual Subtitle for Language Learning</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <p>As a Chinese, I occasionally learn oral English via watching American TV
+different preference on the ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/contextual-subtitle-for-language-learning.html" rel="bookmark" title="Permalink to Contextual Subtitle for Language Learning">Contextual Subtitle for Language Learning</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <p>As a Chinese, I occasionally learn oral English via watching American TV
 Series. One problem is about the subtitle. If I use the Chinese
 subtitle, then I rely on the subtitle for understanding, rather than
 "hearing"; otherwise, if I use the English subtitle, then there are
-regular words that are ...</p>
-                <a class="readmore" href="/contextual-subtitle-for-language-learning.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/parsing-evernote-export-file-enex-using-python.html" rel="bookmark" title="Permalink to Parsing Evernote export file (.enex) using Python">Parsing Evernote export file (.enex) using Python</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <h3>Introduction</h3>
+regular words that are ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/parsing-evernote-export-file-enex-using-python.html" rel="bookmark" title="Permalink to Parsing Evernote export file (.enex) using Python">Parsing Evernote export file (.enex) using Python</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <h3>Introduction</h3>
 <p>My wife keeps all the stories written about our baby in Evernote and
 then publishes them on her blog every few days. Recently, as the baby
 boy is going to celebrate his first birthday, my wife plans to publish
-the stories as a book. This post is about how ...</p>
-                <a class="readmore" href="/parsing-evernote-export-file-enex-using-python.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/shouldinvent.html" rel="bookmark" title="Permalink to shouldinvent">shouldinvent</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <p>My new side project -
+the stories as a book. This post is about how ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/shouldinvent.html" rel="bookmark" title="Permalink to shouldinvent">shouldinvent</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <p>My new side project -
 <a href="http://shouldinvent.hanxiaogang.com/">ShouldInvent</a> is online, which is
 basically an automatic idea aggregation web application based on Twitter
 Search. The primary motivation is to provide inspirations for engineers
@@ -170,76 +116,37 @@ in various domains.</p>
 <a href="http://twitter.com/#!/sivers/status/77683713793736704">one</a> of
 <a href="http://twitter.com/#!/sivers">sivers</a>'s tweets:</p>
 <p><a href="http://twitter.com/#!/sivers">@sivers</a> Derek Sivers - Entrepreneurs,
-need inspiration for ...</p>
-                <a class="readmore" href="/shouldinvent.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/statistical-analysis-on-usethiscom-tool-usage-patterns.html" rel="bookmark" title="Permalink to Statistical analysis on usethis.com tool usage patterns">Statistical analysis on usethis.com tool usage patterns</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <p><a href="http://usesthis.com/">The Setup</a> is a "nerdy interview website asking
+need inspiration for ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/statistical-analysis-on-usethiscom-tool-usage-patterns.html" rel="bookmark" title="Permalink to Statistical analysis on usethis.com tool usage patterns">Statistical analysis on usethis.com tool usage patterns</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <p><a href="http://usesthis.com/">The Setup</a> is a "nerdy interview website asking
 people from all walks of life what they use to get the job done". I am
 pretty interested in the tools mentioned in the interviews and their
 usage patterns. Therefore I created a
 <a href="http://usethistool.appspot.com/">webapp</a> for users to explore the
-tools, users, user ...</p>
-                <a class="readmore" href="/statistical-analysis-on-usethiscom-tool-usage-patterns.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/the-setup-tools-usage-statistics.html" rel="bookmark" title="Permalink to The Setup Tools Usage Statistics">The Setup Tools Usage Statistics</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <p><a href="http://usesthis.com/">The Setup</a> is an interesting interview website.
+tools, users, user ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/the-setup-tools-usage-statistics.html" rel="bookmark" title="Permalink to The Setup Tools Usage Statistics">The Setup Tools Usage Statistics</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <p><a href="http://usesthis.com/">The Setup</a> is an interesting interview website.
 When browsing the latest interview there yesterday, I come out with the
 idea to do a simple statistics on the tool usage patterns for the people
 interviewed. The first statistic is about the frequency of tools
-mentioned by all people. Here is the ...</p>
-                <a class="readmore" href="/the-setup-tools-usage-statistics.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/tweet-length-distribution.html" rel="bookmark" title="Permalink to tweet length distribution">tweet length distribution</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <h3>My version</h3>
+mentioned by all people. Here is the ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/tweet-length-distribution.html" rel="bookmark" title="Permalink to tweet length distribution">tweet length distribution</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <h3>My version</h3>
 <p>( 52,261,787.tweets from 20388 random users)</p>
 <p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/dist.png" /></p>
 <h3>Isaac Hepworth's.version</h3>
@@ -251,27 +158,14 @@ mentioned by all people. Here is the ...</p>
 <a href="http://willwhim.wordpress.com/2012/01/07/distribution-of-tweet-lengths/">link</a></p>
 <p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/will.png" />
 Seems like the distribution in my statistics result is just between the
-other two curves. Is there really spikes in between 20-40 and ...</p>
-                <a class="readmore" href="/tweet-length-distribution.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-                <li><article class="hentry">
-                <header>
-                        <h1><a href="/using-google-books-api-to-improve-ntu-library-book-search.html" rel="bookmark" title="Permalink to Using Google Books API to Improve NTU Library Book Search">Using Google Books API to Improve NTU Library Book Search</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Sat 22 September 2012
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
-        </address>
-        <p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a></p></p></footer><!-- /.post-info --><!-- /.post-info -->
-                <h3>Introduction</h3>
+other two curves. Is there really spikes in between 20-40 and ...</p> </div>
+				</li>
+							<li>
+					<h1 class="title">
+						<a href="/using-google-books-api-to-improve-ntu-library-book-search.html" rel="bookmark" title="Permalink to Using Google Books API to Improve NTU Library Book Search">Using Google Books API to Improve NTU Library Book Search</a>
+					</h1>
+					<abbr class="published" title="2012-09-22T00:00:00">Sat 22 September 2012</abbr>
+				<div class="entry-content"> <h3>Introduction</h3>
 <p>NTU library search
 (<a href="http://ntulibrarysearch.appspot.com/">http://ntulibrarysearch.appspot.com/</a>)
 is an app to facilitate searching books in <a href="http://opac.ntu.edu.sg/">NTU
@@ -282,47 +176,14 @@ Google Appengine and the <a href="https://github.com/chrishan/ntulibrarysearch">
 code</a> is available on
 GitHub.</p>
 <h3>Why?</h3>
-<p>The book search ...</p>
-                <a class="readmore" href="/using-google-books-api-to-improve-ntu-library-book-search.html">read more</a>
-                </div><!-- /.entry-content -->
-        </article></li>
-    </ol><!-- /#posts-list -->
-</section><!-- /#content -->
+<p>The book search ...</p> </div>
+				</li>
+					</ol>
+	</dl>
 
-        <aside id="sidebar">
-                <div class="widget">
-                        <h2>Categories</h2>
-                        <ul>
-                                                   <li class="active"><a href="/category/.html"></a></li>
-                                                </ul>
-                </div>
-                        <div class="widget blogroll">
-                        <h2>Blogroll</h2>
-                        <ul>
-                                                    <li><a href="http://getpelican.com/">Pelican</a></li>
-                                                    <li><a href="http://python.org/">Python.org</a></li>
-                                                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                                                    <li><a href="#">You can modify those links in your config file</a></li>
-                                                </ul>
-                </div><!-- /.blogroll -->
-                                <div class="widget social">
-                        <h2>Social</h2>
-                        <ul>
-                            <li><a href="/" rel="alternate">atom feed</a></li>
-                            
-                                                    <li><a href="#">You can add links in your config file</a></li>
-                                                    <li><a href="#">Another social link</a></li>
-                                                </ul>
-                </div><!-- /.social -->
-                </aside><!-- /#sidebar -->
+	<p class="paginator">
+		</p>
+	</section>
 
-        <footer id="footer" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
-                </address><!-- /#about -->
-
-                <p>The theme is «notmyidea-cms», a modified version of «notmyidea», the default theme.</p>
-        </footer><!-- /#footer -->
-
-</body>
+	</body>
 </html>
