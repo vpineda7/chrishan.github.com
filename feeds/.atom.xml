@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Han Xiaogang's Blog</title><link href="http://blog.hanxiaogang.com/" rel="alternate"></link><link href="http://blog.hanxiaogang.com/feeds/.atom.xml" rel="self"></link><id>http://blog.hanxiaogang.com/</id><updated>2012-09-22T00:00:00+08:00</updated><entry><title>A Twitter Bot for programming.reddit</title><link href="http://blog.hanxiaogang.com/a-twitter-bot-for-programmingreddit.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:a-twitter-bot-for-programmingreddit.html</id><summary type="html">&lt;p&gt;Being a long-term programming.reddit reader, I have tried many ways (web
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Han Xiaogang's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/.atom.xml" rel="self"></link><id>/</id><updated>2012-09-22T00:00:00+08:00</updated><entry><title>A Twitter Bot for programming.reddit</title><link href="/a-twitter-bot-for-programmingreddit.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:a-twitter-bot-for-programmingreddit.html</id><summary type="html">&lt;p&gt;Being a long-term programming.reddit reader, I have tried many ways (web
 browsing, GReader, and now by following @reddit_prog on twitter) to
 follow stories appearing there. Following @reddit_prog is very
 comfortable for me, because it saved me a lot of time and it is easy to
@@ -23,7 +23,7 @@ corresponding comments exceed 5. If so, the title of the story, the
 original link and the reddit link of the story are extracted and sent
 out.&lt;/p&gt;
 &lt;p&gt;Have a try and reduce a bit of your information overload!
-&lt;a href="http://twitter.com/reddit_prog_hot"&gt;@reddit_prog_hot&lt;/a&gt;&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Clustered Hacker News</title><link href="http://blog.hanxiaogang.com/clustered-hacker-news.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:clustered-hacker-news.html</id><summary type="html">&lt;h3&gt;The goal&lt;/h3&gt;
+&lt;a href="http://twitter.com/reddit_prog_hot"&gt;@reddit_prog_hot&lt;/a&gt;&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Clustered Hacker News</title><link href="/clustered-hacker-news.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:clustered-hacker-news.html</id><summary type="html">&lt;h3&gt;The goal&lt;/h3&gt;
 &lt;p&gt;Topic based organization of information sources might be a solution to
 the information (cognition) overload problem on the social Web. For
 example, There are lots of news posted everyday on Hacker News, a
@@ -60,7 +60,7 @@ Dendrograms&lt;/a&gt;&lt;/p&gt;
     is not very large.&lt;/li&gt;
 &lt;li&gt;Currently the clustering accuracy is not very good. More advanced
     algorithms are needed.&lt;/li&gt;
-&lt;/ol&gt;</summary><category term="[]"></category></entry><entry><title>Contextual Subtitle for Language Learning</title><link href="http://blog.hanxiaogang.com/contextual-subtitle-for-language-learning.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:contextual-subtitle-for-language-learning.html</id><summary type="html">&lt;p&gt;As a Chinese, I occasionally learn oral English via watching American TV
+&lt;/ol&gt;</summary><category term="[]"></category></entry><entry><title>Contextual Subtitle for Language Learning</title><link href="/contextual-subtitle-for-language-learning.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:contextual-subtitle-for-language-learning.html</id><summary type="html">&lt;p&gt;As a Chinese, I occasionally learn oral English via watching American TV
 Series. One problem is about the subtitle. If I use the Chinese
 subtitle, then I rely on the subtitle for understanding, rather than
 "hearing"; otherwise, if I use the English subtitle, then there are
@@ -106,7 +106,7 @@ watching (such as names).&lt;/p&gt;
     personalized vocabulary modeling and mixed subtitle generation.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Anyway, the current version is already in use:). I have enjoyed many
-episodes of The Big Bang Theory with the mixed subtitle.&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Parsing Evernote export file (.enex) using Python</title><link href="http://blog.hanxiaogang.com/parsing-evernote-export-file-enex-using-python.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:parsing-evernote-export-file-enex-using-python.html</id><summary type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
+episodes of The Big Bang Theory with the mixed subtitle.&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Parsing Evernote export file (.enex) using Python</title><link href="/parsing-evernote-export-file-enex-using-python.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:parsing-evernote-export-file-enex-using-python.html</id><summary type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;My wife keeps all the stories written about our baby in Evernote and
 then publishes them on her blog every few days. Recently, as the baby
 boy is going to celebrate his first birthday, my wife plans to publish
@@ -192,7 +192,7 @@ def parseNoteXML(xmlFile):
   'updated': '20101231T161039Z'}]&lt;/p&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;The source is avaiable as a &lt;a href="https://gist.github.com/3186646"&gt;gist&lt;/a&gt;.
-Hope it helpful if you face the similar situations.&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>shouldinvent</title><link href="http://blog.hanxiaogang.com/shouldinvent.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:shouldinvent.html</id><summary type="html">&lt;p&gt;My new side project -
+Hope it helpful if you face the similar situations.&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>shouldinvent</title><link href="/shouldinvent.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:shouldinvent.html</id><summary type="html">&lt;p&gt;My new side project -
 &lt;a href="http://shouldinvent.hanxiaogang.com/"&gt;ShouldInvent&lt;/a&gt; is online, which is
 basically an automatic idea aggregation web application based on Twitter
 Search. The primary motivation is to provide inspirations for engineers
@@ -241,7 +241,7 @@ hand, the UI need improvement as I am not a competent designer. But at
 least it appears to work.&lt;/p&gt;
 &lt;p&gt;Go to the &lt;a href="http://shouldinvent.hanxiaogang.com/"&gt;website&lt;/a&gt; and happy
 "steal" ideas from Twitter!&lt;/p&gt;
-&lt;p&gt;Any feedback are appreciated and welcomed.&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Statistical analysis on usethis.com tool usage patterns</title><link href="http://blog.hanxiaogang.com/statistical-analysis-on-usethiscom-tool-usage-patterns.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:statistical-analysis-on-usethiscom-tool-usage-patterns.html</id><summary type="html">&lt;p&gt;&lt;a href="http://usesthis.com/"&gt;The Setup&lt;/a&gt; is a "nerdy interview website asking
+&lt;p&gt;Any feedback are appreciated and welcomed.&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Statistical analysis on usethis.com tool usage patterns</title><link href="/statistical-analysis-on-usethiscom-tool-usage-patterns.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:statistical-analysis-on-usethiscom-tool-usage-patterns.html</id><summary type="html">&lt;p&gt;&lt;a href="http://usesthis.com/"&gt;The Setup&lt;/a&gt; is a "nerdy interview website asking
 people from all walks of life what they use to get the job done". I am
 pretty interested in the tools mentioned in the interviews and their
 usage patterns. Therefore I created a
@@ -265,7 +265,7 @@ this category? what tools do users in this category use? what is the
 trend during 2009-2012?&lt;/p&gt;
 &lt;p&gt;The Webpp: &lt;a href="http://usethistool.appspot.com/"&gt;Use This Tool&lt;/a&gt;. A
 screenshot:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/usethistool.jpg" /&gt;&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>The Setup Tools Usage Statistics</title><link href="http://blog.hanxiaogang.com/the-setup-tools-usage-statistics.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:the-setup-tools-usage-statistics.html</id><summary type="html">&lt;p&gt;&lt;a href="http://usesthis.com/"&gt;The Setup&lt;/a&gt; is an interesting interview website.
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/usethistool.jpg" /&gt;&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>The Setup Tools Usage Statistics</title><link href="/the-setup-tools-usage-statistics.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:the-setup-tools-usage-statistics.html</id><summary type="html">&lt;p&gt;&lt;a href="http://usesthis.com/"&gt;The Setup&lt;/a&gt; is an interesting interview website.
 When browsing the latest interview there yesterday, I come out with the
 idea to do a simple statistics on the tool usage patterns for the people
 interviewed. The first statistic is about the frequency of tools
@@ -277,7 +277,7 @@ links mentioned only once. The python code is available on
 &lt;a href="https://gist.github.com/673769"&gt;gist.github&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Appendix - screenshot for the first page&lt;/p&gt;
 &lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/usesthis.jpeg" /&gt;&lt;/p&gt;
-&lt;p&gt;{% include JB/setup %}&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>tweet length distribution</title><link href="http://blog.hanxiaogang.com/tweet-length-distribution.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:tweet-length-distribution.html</id><summary type="html">&lt;h3&gt;My version&lt;/h3&gt;
+&lt;p&gt;{% include JB/setup %}&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>tweet length distribution</title><link href="/tweet-length-distribution.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:tweet-length-distribution.html</id><summary type="html">&lt;h3&gt;My version&lt;/h3&gt;
 &lt;p&gt;( 52,261,787.tweets from 20388 random users)&lt;/p&gt;
 &lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/dist.png" /&gt;&lt;/p&gt;
 &lt;h3&gt;Isaac Hepworth's.version&lt;/h3&gt;
@@ -296,7 +296,7 @@ other two curves. Is there really spikes in between 20-40 and near 135.&lt;/p&gt
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/avglen_users.png" /&gt;
 -   Client usage&lt;/p&gt;
-&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/client_dist.png" /&gt;&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Using Google Books API to Improve NTU Library Book Search</title><link href="http://blog.hanxiaogang.com/using-google-books-api-to-improve-ntu-library-book-search.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2012-09-22:using-google-books-api-to-improve-ntu-library-book-search.html</id><summary type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/client_dist.png" /&gt;&lt;/p&gt;</summary><category term="[]"></category></entry><entry><title>Using Google Books API to Improve NTU Library Book Search</title><link href="/using-google-books-api-to-improve-ntu-library-book-search.html" rel="alternate"></link><updated>2012-09-22T00:00:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:,2012-09-22:using-google-books-api-to-improve-ntu-library-book-search.html</id><summary type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;NTU library search
 (&lt;a href="http://ntulibrarysearch.appspot.com/"&gt;http://ntulibrarysearch.appspot.com/&lt;/a&gt;)
 is an app to facilitate searching books in &lt;a href="http://opac.ntu.edu.sg/"&gt;NTU
