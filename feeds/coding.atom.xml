@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Han Xiaogang's Blog</title><link href="http://127.0.0.1:8000/" rel="alternate"></link><link href="http://127.0.0.1:8000/feeds/coding.atom.xml" rel="self"></link><id>http://127.0.0.1:8000/</id><updated>2014-06-26T11:02:00+08:00</updated><entry><title>Setup SCM Manager</title><link href="http://127.0.0.1:8000/setup-scm-manager.html" rel="alternate"></link><updated>2014-06-26T11:02:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:127.0.0.1:8000,2014-06-26:setup-scm-manager.html</id><summary type="html">&lt;p&gt;&lt;a href="http://www.scm-manager.org/"&gt;SCM Manager&lt;/a&gt; is an easy to use Git/Mercurial/Subvision repositories server. It's written in Java and very easy to install and config (web-interface). It is standalone (no apache or database required) and provides user/group/permission management.&lt;/p&gt;
+&lt;p&gt;I primarily use Mercurial. This post is the step-by-step guide to use it as a Mercurial server on Windows machines.&lt;/p&gt;
+&lt;h4&gt;Step 0 (dependencies)&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Install &lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html"&gt;JRE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install Python and Mercurial (don't forget to add both of them to System Path)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Step 1&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Download &lt;a href="http://www.scm-manager.org/download/"&gt;SCM Manager&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bitbucket.org/sdorra/scm-manager/wiki/daemons"&gt;Run SCM Manager as a service/daemon&lt;/a&gt;: &lt;code&gt;scm-server.bat install&lt;/code&gt; and start the &lt;em&gt;scm-server&lt;/em&gt; service manually in the Windows services panel (change &lt;em&gt;Startup Type&lt;/em&gt; from &lt;em&gt;Manual&lt;/em&gt; to &lt;em&gt;Automatic&lt;/em&gt; if necessary).&lt;/li&gt;
+&lt;li&gt;Open localhost:8080 and login with default account: scmadmin/scmadmin&lt;/li&gt;
+&lt;li&gt;Open the &lt;em&gt;Repository Types&lt;/em&gt; panel and check the HG Binary path and Python Binary path are correctly located. (If not, click &lt;em&gt;Start Configuration Wizard&lt;/em&gt; button to config from local installation. The &lt;em&gt;download and install&lt;/em&gt; function has bug and may not install python properly.)&lt;/li&gt;
+&lt;li&gt;Add new repository under the &lt;em&gt;Repository&lt;/em&gt; panel. If everything works, you will be able to access to the repository via its url and clone the repo via: &lt;code&gt;hg clone http://scmadmin@ip:8080/scm/hg/testhg_repo&lt;/code&gt; on your local machine.&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="version-control"></category><category term="git"></category><category term="mercurial"></category></entry></feed>

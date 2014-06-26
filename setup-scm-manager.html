@@ -16,10 +16,10 @@
 
   <link href="http://127.0.0.1:8000/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Han Xiaogang's Blog Full Atom Feed" />
 
-<meta name="keywords" content="[]">
+<meta name="keywords" content="version-control, git, mercurial">
 
   <title>
-tweet length distribution  </title>
+Setup SCM Manager  </title>
 
 </head>
 
@@ -44,46 +44,41 @@ tweet length distribution  </title>
 
   <main>
     <header>
-<p>Posted on Sat 22 September 2012</p>
+<p>Posted on Thu 26 June 2014</p>
     </header>
 
 <article>
   <div id="article_title">
-    <h3><a href="http://127.0.0.1:8000/tweet-length-distribution.html">tweet length distribution</a></h3>
+    <h3><a href="http://127.0.0.1:8000/setup-scm-manager.html">Setup SCM Manager</a></h3>
   </div>
   <div id="article_text">
-    <h3>My version</h3>
-<p>( 52,261,787.tweets from 20388 random users)</p>
-<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/dist.png" /></p>
-<h3>Isaac Hepworth's.version</h3>
-<p>(1 million tweets, retweets included)
-<a href="https://twitter.com/#!/isaach/status/155437871149481984">link</a></p>
-<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/isaac.png" /></p>
-<h3>Will Fitzgerald.'s version</h3>
-<p>(50k tweets)
-<a href="http://willwhim.wordpress.com/2012/01/07/distribution-of-tweet-lengths/">link</a></p>
-<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/will.png" />
-Seems like the distribution in my statistics result is just between the
-other two curves. Is there really spikes in between 20-40 and near 135.</p>
-<h3>Extra Statistics</h3>
-<ul>
-<li>Average tweet length by users (20388 users)</li>
-</ul>
-<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/avglen_users.png" />
--   Client usage</p>
-<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/client_dist.png" /></p>
+    <p><a href="http://www.scm-manager.org/">SCM Manager</a> is an easy to use Git/Mercurial/Subvision repositories server. It's written in Java and very easy to install and config (web-interface). It is standalone (no apache or database required) and provides user/group/permission management.</p>
+<p>I primarily use Mercurial. This post is the step-by-step guide to use it as a Mercurial server on Windows machines.</p>
+<h4>Step 0 (dependencies)</h4>
+<ol>
+<li>Install <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">JRE</a></li>
+<li>Install Python and Mercurial (don't forget to add both of them to System Path)</li>
+</ol>
+<h4>Step 1</h4>
+<ol>
+<li>Download <a href="http://www.scm-manager.org/download/">SCM Manager</a></li>
+<li><a href="https://bitbucket.org/sdorra/scm-manager/wiki/daemons">Run SCM Manager as a service/daemon</a>: <code>scm-server.bat install</code> and start the <em>scm-server</em> service manually in the Windows services panel (change <em>Startup Type</em> from <em>Manual</em> to <em>Automatic</em> if necessary).</li>
+<li>Open localhost:8080 and login with default account: scmadmin/scmadmin</li>
+<li>Open the <em>Repository Types</em> panel and check the HG Binary path and Python Binary path are correctly located. (If not, click <em>Start Configuration Wizard</em> button to config from local installation. The <em>download and install</em> function has bug and may not install python properly.)</li>
+<li>Add new repository under the <em>Repository</em> panel. If everything works, you will be able to access to the repository via its url and clone the repo via: <code>hg clone http://scmadmin@ip:8080/scm/hg/testhg_repo</code> on your local machine.</li>
+</ol>
   </div>
   <div id="article_meta">
-    <p>Category: <a href="http://127.0.0.1:8000/category/.html"></a></p>
+    <p>Category: <a href="http://127.0.0.1:8000/category/coding.html">Coding</a></p>
     <p>Tags:
-      <a href="http://127.0.0.1:8000/tag/.html">[]</a>    </p>
+      <a href="http://127.0.0.1:8000/tag/version-control.html">version-control</a>,      <a href="http://127.0.0.1:8000/tag/git.html">git</a>,      <a href="http://127.0.0.1:8000/tag/mercurial.html">mercurial</a>    </p>
     <p>Comments: <a href="#" onclick="javascript:toggleComments();return false;">toggle</a></p>
   </div>
 
     <div id="article_comments" style="display:block">
         <div id="disqus_thread"></div>
         <script type="text/javascript">
-           var disqus_identifier = "tweet-length-distribution.html";
+           var disqus_identifier = "setup-scm-manager.html";
            (function() {
            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
            dsq.src = 'http://chrishan.disqus.com/embed.js';
