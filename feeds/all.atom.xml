@@ -1,5 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Han Xiaogang's Blog</title><link href="http://blog.hanxiaogang.com/" rel="alternate"></link><link href="http://blog.hanxiaogang.com/feeds/all.atom.xml" rel="self"></link><id>http://blog.hanxiaogang.com/</id><updated>2014-06-27T13:20:00+08:00</updated><entry><title>SSH Login Without Password</title><link href="http://blog.hanxiaogang.com/ssh-login.html" rel="alternate"></link><updated>2014-06-27T13:20:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2014-06-27:ssh-login.html</id><summary type="html">&lt;p&gt;Suppose you want to access to Linux machine B from windows machine A. Here is the steps to setup passwordless ssh login.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Han Xiaogang's Blog</title><link href="http://blog.hanxiaogang.com/" rel="alternate"></link><link href="http://blog.hanxiaogang.com/feeds/all.atom.xml" rel="self"></link><id>http://blog.hanxiaogang.com/</id><updated>2014-07-01T15:40:00+08:00</updated><entry><title>How to use the APIs to collect data from Sina Weibo</title><link href="http://blog.hanxiaogang.com/weibo-data.html" rel="alternate"></link><updated>2014-07-01T15:40:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2014-07-01:weibo-data.html</id><summary type="html">&lt;p&gt;Suppose you want to extract tweets posted by a selected group of Weibo users. Here are the steps:&lt;/p&gt;
+&lt;h2&gt;Step 1: Create a new Weibo account&lt;/h2&gt;
+&lt;p&gt;After the account is created, manually add the target users (whose tweets you want to collect) as your followees.&lt;/p&gt;
+&lt;h2&gt;Step 2: Create a new app on Weibo Open Platform&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;create a &lt;a href="http://open.weibo.com/apps/new?sort=web"&gt;new app (网页应用)&lt;/a&gt; (应用地址：http://127.0.0.1)&lt;/li&gt;
+&lt;li&gt;configure callback addresses on advanced setting page (授权回调页：http://127.0.0.1:8000/weibo, 取消授权回调页：http://127.0.0.1:8000/weibo/cancel)&lt;/li&gt;
+&lt;li&gt;App Key and App Secret will be issued on the basic setting page&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Step 3: install python SDK&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sinaweibopy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Step 4: obtain tweets data&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;weibo&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;webbrowser&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pymongo&lt;/span&gt;
+
+&lt;span class="n"&gt;APP_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;YOUR_API_KEY&lt;/span&gt;
+&lt;span class="n"&gt;APP_SECRET&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;YOUR_API_SECRET&lt;/span&gt;
+&lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://127.0.0.1:8000/weibo&amp;#39;&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;weibo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;APIClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;APP_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;APP_SECRET&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;authorize_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_authorize_url&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;authorize_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;webbrowser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;authorize_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;authencation code: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;access_token&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;
+    &lt;span class="n"&gt;expires_in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expires_in&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;access token: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;expire: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expires_in&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_data&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;access_token&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;expires_in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;weibo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;APIClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;APP_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;APP_SECRET&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_uri&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expires_in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;statuses&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;home_timeline&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;YOUR_USERID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;statuses&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;save_data&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Connection&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tweets_db&lt;/span&gt;
+    &lt;span class="n"&gt;tweets_table&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tweets_table&lt;/span&gt;
+    &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ensure_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;tweets&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_data&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;orignal_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tweets&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]},&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;added: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;orignal_count&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;run a local web server to  &lt;code&gt;python -m SimpleHTTPServer&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;copy the code below into a text editor&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;run &lt;code&gt;get_access_token()&lt;/code&gt;. During code execution, your browser will open with address like: &lt;em&gt;http://127.0.0.1:8000/weibo?code=bc3de7eee81bb9a03b6d608a&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;copy the &lt;em&gt;code&lt;/em&gt; back into the console which is waiting for your input, and hit &lt;em&gt;Enter&lt;/em&gt;. The &lt;em&gt;access token&lt;/em&gt; and its &lt;em&gt;expire time&lt;/em&gt; will be printed in the console.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;copy and assign &lt;em&gt;access token&lt;/em&gt; and &lt;em&gt;expire time&lt;/em&gt; to the corresponding variables in &lt;code&gt;get_data()&lt;/code&gt; function, obtain the userid of your account and assign it to &lt;em&gt;uid&lt;/em&gt; in &lt;code&gt;api.statuses.home_timeline.get(uid=YOUR_USERID, count=100)&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;run &lt;code&gt;save_data()&lt;/code&gt;, and the data will be saved to MongoDB&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;notes&lt;/strong&gt; : you may need to run &lt;code&gt;get_access_token()&lt;/code&gt; per few days to refresh &lt;em&gt;access token&lt;/em&gt; in case it expires.&lt;/p&gt;
+&lt;h2&gt;Useful links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;http://github.liaoxuefeng.com/sinaweibopy/&lt;/li&gt;
+&lt;li&gt;http://blog.csdn.net/changemyself/article/details/9172807&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="sns"></category><category term="weibo"></category><category term="data"></category></entry><entry><title>SSH Login Without Password</title><link href="http://blog.hanxiaogang.com/ssh-login.html" rel="alternate"></link><updated>2014-06-27T13:20:00+08:00</updated><author><name>Han Xiaogang</name></author><id>tag:blog.hanxiaogang.com,2014-06-27:ssh-login.html</id><summary type="html">&lt;p&gt;Suppose you want to access to Linux machine B from windows machine A. Here is the steps to setup passwordless ssh login.&lt;/p&gt;
 &lt;h2&gt;Generate public/private keys on local machine A&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
