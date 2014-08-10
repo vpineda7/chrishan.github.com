@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Han Xiaogang's Blog</title><link>/</link><description></description><atom:link href="/feeds/han-xiaogang.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 22 Sep 2012 00:00:00 +0200</lastBuildDate><item><title>A Twitter Bot for programming.reddit</title><link>/a-twitter-bot-for-programmingreddit.html</link><description>&lt;p&gt;Being a long-term programming.reddit reader, I have tried many ways (web
+browsing, GReader, and now by following @reddit_prog on twitter) to
+follow stories appearing there. Following @reddit_prog is very
+comfortable for me, because it saved me a lot of time and it is easy to
+skip irrelevant stories at hand. The problems is that there are still
+too much information dumped by it, most of which are irrelevant
+information. This inspired me to write a programming.reddit twitter bot.&lt;/p&gt;
+&lt;p&gt;The bot &lt;a href="http://twitter.com/reddit_prog_hot"&gt;@reddit_prog_hot&lt;/a&gt; works
+by continuously monitoring hot feeds on
+&lt;a href="http://www.reddit.com/r/programming/"&gt;http://www.reddit.com/r/programming/&lt;/a&gt;.
+Once a story reaches 5 comments, it will tweet it.&lt;/p&gt;
+&lt;p&gt;The bot is deployed on &lt;a href="http://code.google.com/appengine/"&gt;Google
+Appengine&lt;/a&gt; with its &lt;a href="http://code.google.com/appengine/docs/python/config/cron.html"&gt;cron
+service&lt;/a&gt;.
+&lt;a href="http://github.com/joshthecoder/tweepy"&gt;Tweepy&lt;/a&gt; is used to send new
+tweets. &lt;a href="http://www.feedparser.org/"&gt;Feedparser&lt;/a&gt; is used to parse the
+feed
+(&lt;a href="http://www.reddit.com/r/programming/.rss"&gt;http://www.reddit.com/r/programming/.rss)&lt;/a&gt;).
+&lt;a href="http://bit.ly/"&gt;Bit.ly&lt;/a&gt; api is used to shorten the URLs. Every 1 hour
+the bot check for stories on programming.reddit and whether the
+corresponding comments exceed 5. If so, the title of the story, the
+original link and the reddit link of the story are extracted and sent
+out.&lt;/p&gt;
+&lt;p&gt;Have a try and reduce a bit of your information overload!
+&lt;a href="http://twitter.com/reddit_prog_hot"&gt;@reddit_prog_hot&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:a-twitter-bot-for-programmingreddit.html</guid><category>[]</category></item></channel></rss>
