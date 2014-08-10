@@ -52,7 +52,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h2&gt;custom domain name&lt;/h2&gt;
+&lt;h2&gt;Custom domain name&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;myblog&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
 &lt;span class="n"&gt;touch&lt;/span&gt; &lt;span class="n"&gt;CNAME&lt;/span&gt;
 &lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;example&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;CNAME&lt;/span&gt;
