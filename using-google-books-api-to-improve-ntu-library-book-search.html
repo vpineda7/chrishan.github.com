@@ -30,6 +30,7 @@
 <body>
   <header role="banner"><hgroup>
   <h1><a href="/">Han Xiaogang's Blog</a></h1>
+    <h2>Information Retrieval & Data Mining | Data platform | Python | Growing toy ideas into next big things.</h2>
 </hgroup></header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
 </ul>
@@ -37,23 +38,9 @@
 
 
 <ul class="main-navigation">
+    <li><a href="/archives.html">Archives</a></li>
       <li><a href="/pages/project.html">Project</a></li>
       <li><a href="/pages/research.html">Research</a></li>
-    <li class="active">
-    <a href="/category/.html"></a>
-    </li>
-    <li >
-    <a href="/category/coding.html">Coding</a>
-    </li>
-    <li >
-    <a href="/category/productivity.html">Productivity</a>
-    </li>
-    <li >
-    <a href="/category/python.html">Python</a>
-    </li>
-    <li >
-    <a href="/category/writing.html">Writing</a>
-    </li>
 </ul></nav>
   <div id="main">
     <div id="content">
@@ -119,6 +106,7 @@ and save your time find the books you want.</p></div>
     <a class="category" href="/tag/.html">[]</a>
   </span>
 </p><div class="sharing">
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="/using-google-books-api-to-improve-ntu-library-book-search.html" data-via="xiaoganghan" data-counturl="/using-google-books-api-to-improve-ntu-library-book-search.html" >Tweet</a>
 </div>    </footer>
   </article>
 
@@ -162,28 +150,70 @@ and save your time find the books you want.</p></div>
     <a href="/tag/.html">[]</a>,    <a href="/tag/pelican.html">pelican</a>,    <a href="/tag/git.html">git</a>,    <a href="/tag/weibo.html">weibo</a>,    <a href="/tag/cheetsheet.html">cheetsheet</a>,    <a href="/tag/mercurial.html">mercurial</a>,    <a href="/tag/style-check.html">style-check</a>,    <a href="/tag/scikit-learn.html">scikit-learn</a>,    <a href="/tag/sublime-text.html">sublime text</a>,    <a href="/tag/python.html">python</a>,    <a href="/tag/version-control.html">version-control</a>,    <a href="/tag/ssh.html">ssh</a>,    <a href="/tag/machine-learning.html">machine-learning</a>,    <a href="/tag/data.html">data</a>,    <a href="/tag/bash.html">bash</a>,    <a href="/tag/sns.html">sns</a>  </section>
 
 
+
+  <section>
+    <h1>GitHub Repos</h1>
+    <ul id="gh_repos">
+      <li class="loading">Status updating...</li>
+    </ul>
+      <a href="https://github.com/chrishan">@chrishan</a> on GitHub
+    <script type="text/javascript">
+      $.domReady(function(){
+          if (!window.jXHR){
+              var jxhr = document.createElement('script');
+              jxhr.type = 'text/javascript';
+              jxhr.src = '/theme/js/jXHR.js';
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(jxhr, s);
+          }
+
+          github.showRepos({
+              user: 'chrishan',
+              count: 0,
+              skip_forks: false,
+              target: '#gh_repos'
+          });
+      });
+    </script>
+    <script src="/theme/js/github.js" type="text/javascript"> </script>
+  </section>
+
     <section>
         <h1>Social</h1>
         <ul>
-            <li><a href="#" target="_blank">You can add links in your config file</a></li>
-            <li><a href="#" target="_blank">Another social link</a></li>
-        </ul>
-    </section>
-    <section>
-        <h1>Blogroll</h1>
-        <ul>
-            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
-            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
-            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
-            <li><a href="#" target="_blank">You can modify those links in your config file</a></li>
+            <li><a href="http://sg.linkedin.com/in/xghan/" target="_blank">LinkedIn</a></li>
+            <li><a href="mailto:xganghanATgmailDOTcom" target="_blank">Email</a></li>
         </ul>
     </section>
 
+<section>
+    <a href="http://twitter.com/xiaoganghan" class="twitter-follow-button" data-show-count="true">Follow @xiaoganghan</a>
+</section>
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
     Copyright &copy;  2012-2014  - Han Xiaogang -
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
+	<script type="text/javascript">
+	  var disqus_shortname = 'chrishan';
+          var disqus_identifier = '/using-google-books-api-to-improve-ntu-library-book-search.html';
+          var disqus_url = '/using-google-books-api-to-improve-ntu-library-book-search.html';
+          var disqus_title = 'Using Google Books API to Improve NTU Library Book Search';
+	  (function() {
+	    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	    dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
+	    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	   })();
+	</script>
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
 </body>
 </html>
