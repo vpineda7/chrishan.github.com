@@ -14,13 +14,256 @@
         <header id="banner" class="body">
                 <h1><a href="/">Han Xiaogang's Blog </a></h1>
                 <nav><ul>
+                    <li><a href="/pages/project.html">Project</a></li>
+                    <li><a href="/pages/research.html">Research</a></li>
                     <li class="active"><a href="/category/.html"></a></li>
+                    <li><a href="/category/coding.html">Coding</a></li>
+                    <li><a href="/category/productivity.html">Productivity</a></li>
+                    <li><a href="/category/python.html">Python</a></li>
+                    <li><a href="/category/writing.html">Writing</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/a-twitter-bot-for-programmingreddit.html">A Twitter Bot for programming.reddit</a></h1>
+                    <h1 class="entry-title"><a href="/weibo-data.html">How to use the APIs to collect data from Sina Weibo</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-07-01T15:40:00">
+                Published: Tue 01 July 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/coding.html">Coding</a>. </p>
+<p>tags: <a href="/tag/sns.html">sns</a> <a href="/tag/weibo.html">weibo</a> <a href="/tag/data.html">data</a> </p>
+</footer><!-- /.post-info --><p>Suppose you want to extract tweets posted by a selected group of Weibo users. Here are the steps:</p>
+<h2>Step 1: Create a new Weibo account</h2>
+<p>After the account is created, manually add the target users (whose tweets you want to collect) as your followees.</p>
+<h2>Step 2: Create a new app on Weibo Open Platform</h2>
+<ol>
+<li>create a <a href="http://open.weibo.com/apps/new?sort=web">new app (网页应用)</a> (应用地址：http://127.0.0.1)</li>
+<li>configure callback addresses on advanced setting page (授权回调页：http://127.0.0.1:8000/weibo, 取消授权回调页：http://127.0.0.1:8000/weibo/cancel)</li>
+<li>App Key and App Secret will be issued on the basic setting page</li>
+</ol>
+<h2>Step 3: install python SDK</h2>
+<div class="highlight"><pre><span class="n">pip</span> <span class="n">install</span> <span class="n">sinaweibopy</span>
+</pre></div>
+
+
+<h2>Step 4: obtain tweets data</h2>
+<div class="highlight"><pre><span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">weibo</span>
+<span class="kn">import</span> <span class="nn">webbrowser</span>
+<span class="kn">import</span> <span class="nn">pymongo</span>
+
+<span class="n">APP_KEY</span> <span class="o">=</span> <span class="n">YOUR_API_KEY</span>
+<span class="n">APP_SECRET</span> <span class="o">=</span> <span class="n">YOUR_API_SECRET</span>
+<span class="n">REDIRECT_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:8000/weibo&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">get_access_token</span><span class="p">():</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">weibo</span><span class="o">.</span><span class="n">APIClient</span><span class="p">(</span><span class="n">APP_KEY</span><span class="p">,</span> <span class="n">APP_SECRET</span><span class="p">)</span>
+
+    <span class="n">authorize_url</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_authorize_url</span><span class="p">(</span><span class="n">REDIRECT_URL</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">authorize_url</span><span class="p">)</span>
+    <span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new</span><span class="p">(</span><span class="n">authorize_url</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&#39;authencation code: &#39;</span><span class="p">)</span>
+
+    <span class="n">request</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">request_access_token</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">REDIRECT_URL</span><span class="p">)</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">access_token</span>
+    <span class="n">expires_in</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">expires_in</span>
+    <span class="k">print</span> <span class="s">&#39;access token: &#39;</span><span class="p">,</span> <span class="n">access_token</span>
+    <span class="k">print</span> <span class="s">&#39;expire: &#39;</span><span class="p">,</span> <span class="n">expires_in</span>
+
+
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">():</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">expires_in</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">weibo</span><span class="o">.</span><span class="n">APIClient</span><span class="p">(</span><span class="n">APP_KEY</span><span class="p">,</span> <span class="n">APP_SECRET</span><span class="p">,</span> <span class="n">redirect_uri</span><span class="o">=</span><span class="n">REDIRECT_URL</span><span class="p">)</span>
+    <span class="n">api</span><span class="o">.</span><span class="n">set_access_token</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">expires_in</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">statuses</span><span class="o">.</span><span class="n">home_timeline</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uid</span><span class="o">=</span><span class="n">YOUR_USERID</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">statuses</span>
+
+
+<span class="k">def</span> <span class="nf">save_data</span><span class="p">():</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">()</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">tweets_db</span>
+    <span class="n">tweets_table</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">tweets_table</span>
+    <span class="n">tweets_table</span><span class="o">.</span><span class="n">ensure_index</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">tweets</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">()</span>
+    <span class="n">orignal_count</span> <span class="o">=</span> <span class="n">tweets_table</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">:</span>
+        <span class="n">tweets_table</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">tweet</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]},</span> <span class="n">tweet</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&#39;added: &#39;</span><span class="p">,</span> <span class="n">tweets_table</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">-</span> <span class="n">orignal_count</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+
+<ol>
+<li>
+<p>run a local web server to  <code>python -m SimpleHTTPServer</code></p>
+</li>
+<li>
+<p>copy the code below into a text editor</p>
+</li>
+<li>
+<p>run <code>get_access_token()</code>. During code execution, your browser will open with address like: <em>http://127.0.0.1:8000/weibo?code=bc3de7eee81bb9a03b6d608a</em></p>
+</li>
+<li>
+<p>copy the <em>code</em> back into the console which is waiting for your input, and hit <em>Enter</em>. The <em>access token</em> and its <em>expire time</em> will be printed in the console.</p>
+</li>
+<li>
+<p>copy and assign <em>access token</em> and <em>expire time</em> to the corresponding variables in <code>get_data()</code> function, obtain the userid of your account and assign it to <em>uid</em> in <code>api.statuses.home_timeline.get(uid=YOUR_USERID, count=100)</code></p>
+</li>
+<li>
+<p>run <code>save_data()</code>, and the data will be saved to MongoDB</p>
+</li>
+</ol>
+<p><strong>notes</strong> : you may need to run <code>get_access_token()</code> per few days to refresh <em>access token</em> in case it expires.</p>
+<h2>Useful links</h2>
+<ul>
+<li>http://github.liaoxuefeng.com/sinaweibopy/</li>
+<li>http://blog.csdn.net/changemyself/article/details/9172807</li>
+</ul>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/ssh-login.html" rel="bookmark"
+                           title="Permalink to SSH Login Without Password">SSH Login Without Password</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-27T13:20:00">
+                Published: Fri 27 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/coding.html">Coding</a>. </p>
+<p>tags: <a href="/tag/ssh.html">ssh</a> </p>
+</footer><!-- /.post-info -->                <p>Suppose you want to access to Linux machine B from windows machine A. Here is the steps to setup passwordless ssh login.</p>
+<h2>Generate public/private keys on local machine A</h2>
+<ol>
+<li>
+<p>Use PuttyGEN to generate public/private keys and save them to the same directory on <em>machine A</em>. For the public ...</p></li></ol>
+                <a class="readmore" href="/ssh-login.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/setup-scm-manager.html" rel="bookmark"
+                           title="Permalink to Setup SCM Manager">Setup SCM Manager</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-26T11:02:00">
+                Published: Thu 26 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/coding.html">Coding</a>. </p>
+<p>tags: <a href="/tag/version-control.html">version-control</a> <a href="/tag/git.html">git</a> <a href="/tag/mercurial.html">mercurial</a> </p>
+</footer><!-- /.post-info -->                <p><a href="http://www.scm-manager.org/">SCM Manager</a> is an easy to use Git/Mercurial/Subvision repositories server. It's written in Java and very easy to install and config (web-interface). It is standalone (no apache or database required) and provides user/group/permission management.</p>
+<p>I primarily use Mercurial. This post is the step-by-step guide to ...</p>
+                <a class="readmore" href="/setup-scm-manager.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/style-check.html" rel="bookmark"
+                           title="Permalink to style-check.py">style-check.py</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-01-25T17:16:00">
+                Published: Sat 25 January 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/writing.html">Writing</a>. </p>
+<p>tags: <a href="/tag/style-check.html">style-check</a> <a href="/tag/python.html">python</a> <a href="/tag/sublime-text.html">sublime text</a> </p>
+</footer><!-- /.post-info -->                <p>Writing readable scientific papers is hard, especially for beginners. Although books (<a href="http://www.amazon.com/The-Elements-Style-Fourth-Edition/dp/020530902X">e.g., The Elements of Style</a>) and guides are written to promote the best practices, it is still desired that such guides can be automatically applied to our writing in the form of concrete suggestions.</p>
+<p><a href="http://www.cs.umd.edu/~nspring/software/style-check-readme.html">style-check.rb</a> is such ...</p>
+                <a class="readmore" href="/style-check.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/bash-cheetsheet.html" rel="bookmark"
+                           title="Permalink to Printable Bash Shortcuts Cheat Sheet">Printable Bash Shortcuts Cheat Sheet</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-09-11T17:16:00">
+                Published: Wed 11 September 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/productivity.html">Productivity</a>. </p>
+<p>tags: <a href="/tag/bash.html">bash</a> <a href="/tag/cheetsheet.html">cheetsheet</a> </p>
+</footer><!-- /.post-info -->                <p><a href="http://www.skorks.com">Alan Skorkin</a> wrote a great <a href="http://www.skorks.com/2009/09/bash-shortcuts-for-maximum-productivity/">post</a> on bash shortcuts. I made a printable version using Latex to keep it on my desk. You can <a href="|filename|/pdfs/bashsheet.pdf">download the PDF here</a>.</p>
+<p>Preview:
+<img alt="bash shortcuts" src="/images/bashsheet.png" /></p>
+                <a class="readmore" href="/bash-cheetsheet.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/quora-ml-problem.html" rel="bookmark"
+                           title="Permalink to My Solution to the Quora ML Problem (Predicting whether a question gets an upvoted answer)">My Solution to the Quora ML Problem (Predicting whether a question gets an upvoted answer)</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-15T22:16:00">
+                Published: Thu 15 August 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>. </p>
+<p>tags: <a href="/tag/machine-learning.html">machine-learning</a> <a href="/tag/python.html">python</a> <a href="/tag/scikit-learn.html">scikit-learn</a> </p>
+</footer><!-- /.post-info -->                <p>The <a href="https://www.hackerrank.com/contests/quora/challenges">Quora ML CodeSprint 2013</a> just finished on hackerrank.com. My entry for the first task - <a href="https://www.hackerrank.com/contests/quora/challenges/quora-ml-answered/leaderboard">Quora ML Problem: Answered</a>, was ranked 7th/71 on the dashboard.</p>
+<p>The objective of the task is to predict whether a question gets an upvoted answer within 1 day, given Quora question text and ...</p>
+                <a class="readmore" href="/quora-ml-problem.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/a-twitter-bot-for-programmingreddit.html" rel="bookmark"
+                           title="Permalink to A Twitter Bot for programming.reddit">A Twitter Bot for programming.reddit</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2012-09-22T00:00:00">
                 Published: Sat 22 September 2012
@@ -31,35 +274,99 @@
         </address>
 <p>In <a href="/category/.html"></a>. </p>
 <p>tags: <a href="/tag/.html">[]</a> </p>
-</footer><!-- /.post-info --><p>Being a long-term programming.reddit reader, I have tried many ways (web
+</footer><!-- /.post-info -->                <p>Being a long-term programming.reddit reader, I have tried many ways (web
 browsing, GReader, and now by following @reddit_prog on twitter) to
 follow stories appearing there. Following @reddit_prog is very
 comfortable for me, because it saved me a lot of time and it is easy to
-skip irrelevant stories at hand. The problems is that there are still
-too much information dumped by it, most of which are irrelevant
-information. This inspired me to write a programming.reddit twitter bot.</p>
-<p>The bot <a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a> works
-by continuously monitoring hot feeds on
-<a href="http://www.reddit.com/r/programming/">http://www.reddit.com/r/programming/</a>.
-Once a story reaches 5 comments, it will tweet it.</p>
-<p>The bot is deployed on <a href="http://code.google.com/appengine/">Google
-Appengine</a> with its <a href="http://code.google.com/appengine/docs/python/config/cron.html">cron
-service</a>.
-<a href="http://github.com/joshthecoder/tweepy">Tweepy</a> is used to send new
-tweets. <a href="http://www.feedparser.org/">Feedparser</a> is used to parse the
-feed
-(<a href="http://www.reddit.com/r/programming/.rss">http://www.reddit.com/r/programming/.rss)</a>).
-<a href="http://bit.ly/">Bit.ly</a> api is used to shorten the URLs. Every 1 hour
-the bot check for stories on programming.reddit and whether the
-corresponding comments exceed 5. If so, the title of the story, the
-original link and the reddit link of the story are extracted and sent
-out.</p>
-<p>Have a try and reduce a bit of your information overload!
-<a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a></p>                </article>
+skip irrelevant stories at ...</p>
+                <a class="readmore" href="/a-twitter-bot-for-programmingreddit.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/clustered-hacker-news.html" rel="bookmark"
+                           title="Permalink to Clustered Hacker News">Clustered Hacker News</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-09-22T00:00:00">
+                Published: Sat 22 September 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/.html"></a>. </p>
+<p>tags: <a href="/tag/.html">[]</a> </p>
+</footer><!-- /.post-info -->                <h3>The goal</h3>
+<p>Topic based organization of information sources might be a solution to
+the information (cognition) overload problem on the social Web. For
+example, There are lots of news posted everyday on Hacker News, a
+startup news aggregation site. The problem is that different users have
+different preference on the ...</p>
+                <a class="readmore" href="/clustered-hacker-news.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/contextual-subtitle-for-language-learning.html" rel="bookmark"
+                           title="Permalink to Contextual Subtitle for Language Learning">Contextual Subtitle for Language Learning</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-09-22T00:00:00">
+                Published: Sat 22 September 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/.html"></a>. </p>
+<p>tags: <a href="/tag/.html">[]</a> </p>
+</footer><!-- /.post-info -->                <p>As a Chinese, I occasionally learn oral English via watching American TV
+Series. One problem is about the subtitle. If I use the Chinese
+subtitle, then I rely on the subtitle for understanding, rather than
+"hearing"; otherwise, if I use the English subtitle, then there are
+regular words that are ...</p>
+                <a class="readmore" href="/contextual-subtitle-for-language-learning.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/parsing-evernote-export-file-enex-using-python.html" rel="bookmark"
+                           title="Permalink to Parsing Evernote export file (.enex) using Python">Parsing Evernote export file (.enex) using Python</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-09-22T00:00:00">
+                Published: Sat 22 September 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/.html"></a>. </p>
+<p>tags: <a href="/tag/.html">[]</a> </p>
+</footer><!-- /.post-info -->                <h3>Introduction</h3>
+<p>My wife keeps all the stories written about our baby in Evernote and
+then publishes them on her blog every few days. Recently, as the baby
+boy is going to celebrate his first birthday, my wife plans to publish
+the stories as a book. This post is about how ...</p>
+                <a class="readmore" href="/parsing-evernote-export-file-enex-using-python.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
 <p class="paginator">
-    Page 1 / 1
+    Page 1 / 2
+        <a href="/author/han-xiaogang2.html">&raquo;</a>
 </p>
-            </aside><!-- /#featured -->
+                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

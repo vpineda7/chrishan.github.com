@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>A Twitter Bot for programming.reddit</title>
+        <title>Han Xiaogang's Blog - version-control</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -23,54 +23,40 @@
                     <li><a href="/category/writing.html">Writing</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
-<section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="/a-twitter-bot-for-programmingreddit.html" rel="bookmark"
-           title="Permalink to A Twitter Bot for programming.reddit">A Twitter Bot for programming.reddit</a></h1>
-    </header>
 
-    <div class="entry-content">
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/setup-scm-manager.html">Setup SCM Manager</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Published: Sat 22 September 2012
+        <abbr class="published" title="2014-06-26T11:02:00">
+                Published: Thu 26 June 2014
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
         </address>
-<p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a> </p>
-</footer><!-- /.post-info -->      <p>Being a long-term programming.reddit reader, I have tried many ways (web
-browsing, GReader, and now by following @reddit_prog on twitter) to
-follow stories appearing there. Following @reddit_prog is very
-comfortable for me, because it saved me a lot of time and it is easy to
-skip irrelevant stories at hand. The problems is that there are still
-too much information dumped by it, most of which are irrelevant
-information. This inspired me to write a programming.reddit twitter bot.</p>
-<p>The bot <a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a> works
-by continuously monitoring hot feeds on
-<a href="http://www.reddit.com/r/programming/">http://www.reddit.com/r/programming/</a>.
-Once a story reaches 5 comments, it will tweet it.</p>
-<p>The bot is deployed on <a href="http://code.google.com/appengine/">Google
-Appengine</a> with its <a href="http://code.google.com/appengine/docs/python/config/cron.html">cron
-service</a>.
-<a href="http://github.com/joshthecoder/tweepy">Tweepy</a> is used to send new
-tweets. <a href="http://www.feedparser.org/">Feedparser</a> is used to parse the
-feed
-(<a href="http://www.reddit.com/r/programming/.rss">http://www.reddit.com/r/programming/.rss)</a>).
-<a href="http://bit.ly/">Bit.ly</a> api is used to shorten the URLs. Every 1 hour
-the bot check for stories on programming.reddit and whether the
-corresponding comments exceed 5. If so, the title of the story, the
-original link and the reddit link of the story are extracted and sent
-out.</p>
-<p>Have a try and reduce a bit of your information overload!
-<a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a></p>
-    </div><!-- /.entry-content -->
-
-  </article>
-</section>
+<p>In <a href="/category/coding.html">Coding</a>. </p>
+<p>tags: <a href="/tag/version-control.html">version-control</a> <a href="/tag/git.html">git</a> <a href="/tag/mercurial.html">mercurial</a> </p>
+</footer><!-- /.post-info --><p><a href="http://www.scm-manager.org/">SCM Manager</a> is an easy to use Git/Mercurial/Subvision repositories server. It's written in Java and very easy to install and config (web-interface). It is standalone (no apache or database required) and provides user/group/permission management.</p>
+<p>I primarily use Mercurial. This post is the step-by-step guide to use it as a Mercurial server on Windows servers.</p>
+<h4>Step 0 (dependencies)</h4>
+<ol>
+<li>Install <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html">JRE</a></li>
+<li>Install Python and Mercurial (don't forget to add both of them to System Path)</li>
+</ol>
+<h4>Step 1</h4>
+<ol>
+<li>Download <a href="http://www.scm-manager.org/download/">SCM Manager</a></li>
+<li><a href="https://bitbucket.org/sdorra/scm-manager/wiki/daemons">Run SCM Manager as a service/daemon</a>: <code>scm-server.bat install</code> and start the <em>scm-server</em> service manually in the Windows services panel (change <em>Startup Type</em> from <em>Manual</em> to <em>Automatic</em> if necessary).</li>
+<li>Open localhost:8080 and login with default account: scmadmin/scmadmin</li>
+<li>Open the <em>Repository Types</em> panel and check the HG Binary path and Python Binary path are correctly located. (If not, click <em>Start Configuration Wizard</em> button to config from local installation. The <em>download and install</em> function has bug and may not install python properly.)</li>
+<li>Add new repository under the <em>Repository</em> panel. If everything works, you will be able to access to the repository via its url and clone the repo via: <code>hg clone http://scmadmin@ip:8080/scm/hg/testhg_repo</code> on your local machine.</li>
+</ol>
+<p>update: It is much easier to get SCM Manager setup on Linux. To run it as a daemon, just add <code>JAVA_HOME=/usr/lib/jvm/(yourjdkdir)</code> to <code>bin/scm-server</code> and run <code>sudo ./scm-server start</code>. Step 1.4 above is not required.</p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

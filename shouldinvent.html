@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>A Twitter Bot for programming.reddit</title>
+        <title>shouldinvent</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -27,8 +27,8 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/a-twitter-bot-for-programmingreddit.html" rel="bookmark"
-           title="Permalink to A Twitter Bot for programming.reddit">A Twitter Bot for programming.reddit</a></h1>
+        <a href="/shouldinvent.html" rel="bookmark"
+           title="Permalink to shouldinvent">shouldinvent</a></h1>
     </header>
 
     <div class="entry-content">
@@ -42,31 +42,56 @@
         </address>
 <p>In <a href="/category/.html"></a>. </p>
 <p>tags: <a href="/tag/.html">[]</a> </p>
-</footer><!-- /.post-info -->      <p>Being a long-term programming.reddit reader, I have tried many ways (web
-browsing, GReader, and now by following @reddit_prog on twitter) to
-follow stories appearing there. Following @reddit_prog is very
-comfortable for me, because it saved me a lot of time and it is easy to
-skip irrelevant stories at hand. The problems is that there are still
-too much information dumped by it, most of which are irrelevant
-information. This inspired me to write a programming.reddit twitter bot.</p>
-<p>The bot <a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a> works
-by continuously monitoring hot feeds on
-<a href="http://www.reddit.com/r/programming/">http://www.reddit.com/r/programming/</a>.
-Once a story reaches 5 comments, it will tweet it.</p>
-<p>The bot is deployed on <a href="http://code.google.com/appengine/">Google
-Appengine</a> with its <a href="http://code.google.com/appengine/docs/python/config/cron.html">cron
-service</a>.
-<a href="http://github.com/joshthecoder/tweepy">Tweepy</a> is used to send new
-tweets. <a href="http://www.feedparser.org/">Feedparser</a> is used to parse the
-feed
-(<a href="http://www.reddit.com/r/programming/.rss">http://www.reddit.com/r/programming/.rss)</a>).
-<a href="http://bit.ly/">Bit.ly</a> api is used to shorten the URLs. Every 1 hour
-the bot check for stories on programming.reddit and whether the
-corresponding comments exceed 5. If so, the title of the story, the
-original link and the reddit link of the story are extracted and sent
-out.</p>
-<p>Have a try and reduce a bit of your information overload!
-<a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a></p>
+</footer><!-- /.post-info -->      <p>My new side project -
+<a href="http://shouldinvent.hanxiaogang.com/">ShouldInvent</a> is online, which is
+basically an automatic idea aggregation web application based on Twitter
+Search. The primary motivation is to provide inspirations for engineers
+in various domains.</p>
+<p>The project is initially inspired by
+<a href="http://twitter.com/#!/sivers/status/77683713793736704">one</a> of
+<a href="http://twitter.com/#!/sivers">sivers</a>'s tweets:</p>
+<p><a href="http://twitter.com/#!/sivers">@sivers</a> Derek Sivers - Entrepreneurs,
+need inspiration for what to invent Try this:
+<a href="http://search.twitter.com/q=%22should+invent%22">http://search.twitter.com/q=%22should+invent%22</a></p>
+<p>After thought about it for a minutes, I asked myself - how about create
+an app that search Twitter periodically for "should invented" things?
+Can great ideas be mined from such informally mentioned things?</p>
+<p>The algorithm behind the application is illustrated in the following
+figure.</p>
+<p><img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/how.png" />
+The application works like this:</p>
+<ol>
+<li>periodically, a bot is called to search Twitter using keywords
+    "should invent" (also "should develop");</li>
+<li>naive natural language processing techniques like tokenizing and
+    chunking is then performed on the content of tweets to identify the
+    target objects;</li>
+<li>finally, each of the target objects are automatic classified into
+    hierarchical categories.</li>
+</ol>
+<p>Based on tweets collected in the last month, the <a href="http://shouldinvent.hanxiaogang.com/%20sort=tweet_count&amp;dir=asc">"most desired
+inventions"</a>
+on Twitter are:</p>
+<ul>
+<li><a href="http://shouldinvent.hanxiaogang.com/invent/1">mirror</a> [4899 tweets]
+    a mirror that takes pictures</li>
+<li><a href="http://shouldinvent.hanxiaogang.com/invent/1664">waterproof</a> ipod
+    [414 tweets] a waterproof ipod</li>
+<li><a href="http://shouldinvent.hanxiaogang.com/invent/234">snooze button</a> [366
+    tweets] a snooze button that hits back</li>
+<li><a href="http://shouldinvent.hanxiaogang.com/invent/172">food machine</a> [223
+    tweets] a food machine where when you ask for something</li>
+<li><a href="http://shouldinvent.hanxiaogang.com/invent/138">version of twitter</a>
+    [89 tweets] a version of twitter for people who spell things like
+    rappers</li>
+</ul>
+<p>The current named entry recognition and classification algorithm are by
+no means perfect and still need to be improved over time. On the other
+hand, the UI need improvement as I am not a competent designer. But at
+least it appears to work.</p>
+<p>Go to the <a href="http://shouldinvent.hanxiaogang.com/">website</a> and happy
+"steal" ideas from Twitter!</p>
+<p>Any feedback are appreciated and welcomed.</p>
     </div><!-- /.entry-content -->
 
   </article>

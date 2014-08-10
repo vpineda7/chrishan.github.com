@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Han Xiaogang's Blog</title>
+        <title>Han Xiaogang's Blog - ssh</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -23,13 +23,51 @@
                     <li><a href="/category/writing.html">Writing</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/ssh-login.html">SSH Login Without Password</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-06-27T13:20:00">
+                Published: Fri 27 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
+        </address>
+<p>In <a href="/category/coding.html">Coding</a>. </p>
+<p>tags: <a href="/tag/ssh.html">ssh</a> </p>
+</footer><!-- /.post-info --><p>Suppose you want to access to Linux machine B from windows machine A. Here is the steps to setup passwordless ssh login.</p>
+<h2>Generate public/private keys on local machine A</h2>
+<ol>
+<li>
+<p>Use PuttyGEN to generate public/private keys and save them to the same directory on <em>machine A</em>. For the public key, copy the generated key from the textbox rather than clicking the save button (use <code>ssh-keygen -t dsa</code> to generate the keys in ~/.ssh if on linux)</p>
+</li>
+<li>
+<p>Copy the generated public key to machine B</p>
+</li>
+</ol>
+<h2>Configure public key on the server B</h2>
+<div class="highlight"><pre><span class="n">mkdir</span> <span class="o">~/</span><span class="p">.</span><span class="n">ssh</span>
+<span class="n">cat</span> <span class="n">public_key</span> <span class="o">&gt;&gt;</span> <span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">authorized_keys</span>
+<span class="n">chmod</span> <span class="mi">700</span> <span class="p">.</span><span class="n">ssh</span>
+<span class="n">chmod</span> <span class="mi">600</span> <span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">authorized_keys</span>
+</pre></div>
+
+
+<h2>Login from machine A without password</h2>
+<ol>
+<li>Use Putty to ssh to the server (with the private key loaded at Putty-&gt;SSH-&gt;Auth)</li>
+</ol>
+<h2>Useful links</h2>
 <ul>
-    <li><a href="/category/.html"></a></li>
-    <li><a href="/category/coding.html">Coding</a></li>
-    <li><a href="/category/productivity.html">Productivity</a></li>
-    <li><a href="/category/python.html">Python</a></li>
-    <li><a href="/category/writing.html">Writing</a></li>
-</ul>
+<li>http://manjeetdahiya.com/2011/03/03/passwordless-ssh-login/</li>
+<li>http://askubuntu.com/questions/204400/ssh-public-key-no-supported-authentication-methods-available-server-sent-publ</li>
+</ul>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

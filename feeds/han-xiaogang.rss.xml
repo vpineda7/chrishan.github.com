@@ -1,5 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Han Xiaogang's Blog</title><link>/</link><description></description><atom:link href="/feeds/han-xiaogang.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 22 Sep 2012 00:00:00 +0200</lastBuildDate><item><title>A Twitter Bot for programming.reddit</title><link>/a-twitter-bot-for-programmingreddit.html</link><description>&lt;p&gt;Being a long-term programming.reddit reader, I have tried many ways (web
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Han Xiaogang's Blog</title><link>/</link><description></description><atom:link href="/feeds/han-xiaogang.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 01 Jul 2014 15:40:00 +0200</lastBuildDate><item><title>How to use the APIs to collect data from Sina Weibo</title><link>/weibo-data.html</link><description>&lt;p&gt;Suppose you want to extract tweets posted by a selected group of Weibo users. Here are the steps:&lt;/p&gt;
+&lt;h2&gt;Step 1: Create a new Weibo account&lt;/h2&gt;
+&lt;p&gt;After the account is created, manually add the target users (whose tweets you want to collect) as your followees.&lt;/p&gt;
+&lt;h2&gt;Step 2: Create a new app on Weibo Open Platform&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;create a &lt;a href="http://open.weibo.com/apps/new?sort=web"&gt;new app (网页应用)&lt;/a&gt; (应用地址：http://127.0.0.1)&lt;/li&gt;
+&lt;li&gt;configure callback addresses on advanced setting page (授权回调页：http://127.0.0.1:8000/weibo, 取消授权回调页：http://127.0.0.1:8000/weibo/cancel)&lt;/li&gt;
+&lt;li&gt;App Key and App Secret will be issued on the basic setting page&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Step 3: install python SDK&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;sinaweibopy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Step 4: obtain tweets data&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;weibo&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;webbrowser&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pymongo&lt;/span&gt;
+
+&lt;span class="n"&gt;APP_KEY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;YOUR_API_KEY&lt;/span&gt;
+&lt;span class="n"&gt;APP_SECRET&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;YOUR_API_SECRET&lt;/span&gt;
+&lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://127.0.0.1:8000/weibo&amp;#39;&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_access_token&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;weibo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;APIClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;APP_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;APP_SECRET&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;authorize_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_authorize_url&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;authorize_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;webbrowser&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;authorize_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;raw_input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;authencation code: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;request&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;access_token&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;
+    &lt;span class="n"&gt;expires_in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expires_in&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;access token: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;expire: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expires_in&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_data&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;access_token&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;expires_in&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;api&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;weibo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;APIClient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;APP_KEY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;APP_SECRET&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_uri&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;REDIRECT_URL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expires_in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;api&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;statuses&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;home_timeline&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;YOUR_USERID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;statuses&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;save_data&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Connection&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;db&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tweets_db&lt;/span&gt;
+    &lt;span class="n"&gt;tweets_table&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tweets_table&lt;/span&gt;
+    &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ensure_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;tweets&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_data&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;orignal_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tweets&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]},&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;added: &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tweets_table&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;orignal_count&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;run a local web server to  &lt;code&gt;python -m SimpleHTTPServer&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;copy the code below into a text editor&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;run &lt;code&gt;get_access_token()&lt;/code&gt;. During code execution, your browser will open with address like: &lt;em&gt;http://127.0.0.1:8000/weibo?code=bc3de7eee81bb9a03b6d608a&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;copy the &lt;em&gt;code&lt;/em&gt; back into the console which is waiting for your input, and hit &lt;em&gt;Enter&lt;/em&gt;. The &lt;em&gt;access token&lt;/em&gt; and its &lt;em&gt;expire time&lt;/em&gt; will be printed in the console.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;copy and assign &lt;em&gt;access token&lt;/em&gt; and &lt;em&gt;expire time&lt;/em&gt; to the corresponding variables in &lt;code&gt;get_data()&lt;/code&gt; function, obtain the userid of your account and assign it to &lt;em&gt;uid&lt;/em&gt; in &lt;code&gt;api.statuses.home_timeline.get(uid=YOUR_USERID, count=100)&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;run &lt;code&gt;save_data()&lt;/code&gt;, and the data will be saved to MongoDB&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;notes&lt;/strong&gt; : you may need to run &lt;code&gt;get_access_token()&lt;/code&gt; per few days to refresh &lt;em&gt;access token&lt;/em&gt; in case it expires.&lt;/p&gt;
+&lt;h2&gt;Useful links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;http://github.liaoxuefeng.com/sinaweibopy/&lt;/li&gt;
+&lt;li&gt;http://blog.csdn.net/changemyself/article/details/9172807&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Tue, 01 Jul 2014 15:40:00 +0200</pubDate><guid>tag:,2014-07-01:weibo-data.html</guid><category>sns</category><category>weibo</category><category>data</category></item><item><title>SSH Login Without Password</title><link>/ssh-login.html</link><description>&lt;p&gt;Suppose you want to access to Linux machine B from windows machine A. Here is the steps to setup passwordless ssh login.&lt;/p&gt;
+&lt;h2&gt;Generate public/private keys on local machine A&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Use PuttyGEN to generate public/private keys and save them to the same directory on &lt;em&gt;machine A&lt;/em&gt;. For the public key, copy the generated key from the textbox rather than clicking the save button (use &lt;code&gt;ssh-keygen -t dsa&lt;/code&gt; to generate the keys in ~/.ssh if on linux)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Copy the generated public key to machine B&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Configure public key on the server B&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;
+&lt;span class="n"&gt;cat&lt;/span&gt; &lt;span class="n"&gt;public_key&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;authorized_keys&lt;/span&gt;
+&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="mi"&gt;700&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;
+&lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="mi"&gt;600&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;authorized_keys&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Login from machine A without password&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Use Putty to ssh to the server (with the private key loaded at Putty-&amp;gt;SSH-&amp;gt;Auth)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Useful links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;http://manjeetdahiya.com/2011/03/03/passwordless-ssh-login/&lt;/li&gt;
+&lt;li&gt;http://askubuntu.com/questions/204400/ssh-public-key-no-supported-authentication-methods-available-server-sent-publ&lt;/li&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Fri, 27 Jun 2014 13:20:00 +0200</pubDate><guid>tag:,2014-06-27:ssh-login.html</guid><category>ssh</category></item><item><title>Setup SCM Manager</title><link>/setup-scm-manager.html</link><description>&lt;p&gt;&lt;a href="http://www.scm-manager.org/"&gt;SCM Manager&lt;/a&gt; is an easy to use Git/Mercurial/Subvision repositories server. It's written in Java and very easy to install and config (web-interface). It is standalone (no apache or database required) and provides user/group/permission management.&lt;/p&gt;
+&lt;p&gt;I primarily use Mercurial. This post is the step-by-step guide to use it as a Mercurial server on Windows servers.&lt;/p&gt;
+&lt;h4&gt;Step 0 (dependencies)&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Install &lt;a href="http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html"&gt;JRE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install Python and Mercurial (don't forget to add both of them to System Path)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Step 1&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Download &lt;a href="http://www.scm-manager.org/download/"&gt;SCM Manager&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bitbucket.org/sdorra/scm-manager/wiki/daemons"&gt;Run SCM Manager as a service/daemon&lt;/a&gt;: &lt;code&gt;scm-server.bat install&lt;/code&gt; and start the &lt;em&gt;scm-server&lt;/em&gt; service manually in the Windows services panel (change &lt;em&gt;Startup Type&lt;/em&gt; from &lt;em&gt;Manual&lt;/em&gt; to &lt;em&gt;Automatic&lt;/em&gt; if necessary).&lt;/li&gt;
+&lt;li&gt;Open localhost:8080 and login with default account: scmadmin/scmadmin&lt;/li&gt;
+&lt;li&gt;Open the &lt;em&gt;Repository Types&lt;/em&gt; panel and check the HG Binary path and Python Binary path are correctly located. (If not, click &lt;em&gt;Start Configuration Wizard&lt;/em&gt; button to config from local installation. The &lt;em&gt;download and install&lt;/em&gt; function has bug and may not install python properly.)&lt;/li&gt;
+&lt;li&gt;Add new repository under the &lt;em&gt;Repository&lt;/em&gt; panel. If everything works, you will be able to access to the repository via its url and clone the repo via: &lt;code&gt;hg clone http://scmadmin@ip:8080/scm/hg/testhg_repo&lt;/code&gt; on your local machine.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;update: It is much easier to get SCM Manager setup on Linux. To run it as a daemon, just add &lt;code&gt;JAVA_HOME=/usr/lib/jvm/(yourjdkdir)&lt;/code&gt; to &lt;code&gt;bin/scm-server&lt;/code&gt; and run &lt;code&gt;sudo ./scm-server start&lt;/code&gt;. Step 1.4 above is not required.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Thu, 26 Jun 2014 11:02:00 +0200</pubDate><guid>tag:,2014-06-26:setup-scm-manager.html</guid><category>version-control</category><category>git</category><category>mercurial</category></item><item><title>style-check.py</title><link>/style-check.html</link><description>&lt;p&gt;Writing readable scientific papers is hard, especially for beginners. Although books (&lt;a href="http://www.amazon.com/The-Elements-Style-Fourth-Edition/dp/020530902X"&gt;e.g., The Elements of Style&lt;/a&gt;) and guides are written to promote the best practices, it is still desired that such guides can be automatically applied to our writing in the form of concrete suggestions.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.cs.umd.edu/~nspring/software/style-check-readme.html"&gt;style-check.rb&lt;/a&gt; is such a commandline tool to check the grammar and style problems in Latex files. It comes with a predefined set of rules and uses regular expression to find the problems with your writing. It is so useful for me that I am wondering if it can be integrated into my favorate text editor - Sublime Text.&lt;/p&gt;
+&lt;p&gt;I rewrote style-check.rb with python and created a Sublime Text package &lt;a href="https://github.com/chrishan/style-check"&gt;style-check&lt;/a&gt;. Hope you find it useful.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 25 Jan 2014 17:16:00 +0100</pubDate><guid>tag:,2014-01-25:style-check.html</guid><category>style-check</category><category>python</category><category>sublime text</category></item><item><title>Printable Bash Shortcuts Cheat Sheet</title><link>/bash-cheetsheet.html</link><description>&lt;p&gt;&lt;a href="http://www.skorks.com"&gt;Alan Skorkin&lt;/a&gt; wrote a great &lt;a href="http://www.skorks.com/2009/09/bash-shortcuts-for-maximum-productivity/"&gt;post&lt;/a&gt; on bash shortcuts. I made a printable version using Latex to keep it on my desk. You can &lt;a href="|filename|/pdfs/bashsheet.pdf"&gt;download the PDF here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Preview:
+&lt;img alt="bash shortcuts" src="/images/bashsheet.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Wed, 11 Sep 2013 17:16:00 +0200</pubDate><guid>tag:,2013-09-11:bash-cheetsheet.html</guid><category>bash</category><category>cheetsheet</category></item><item><title>My Solution to the Quora ML Problem (Predicting whether a question gets an upvoted answer)</title><link>/quora-ml-problem.html</link><description>&lt;p&gt;The &lt;a href="https://www.hackerrank.com/contests/quora/challenges"&gt;Quora ML CodeSprint 2013&lt;/a&gt; just finished on hackerrank.com. My entry for the first task - &lt;a href="https://www.hackerrank.com/contests/quora/challenges/quora-ml-answered/leaderboard"&gt;Quora ML Problem: Answered&lt;/a&gt;, was ranked 7th/71 on the dashboard.&lt;/p&gt;
+&lt;p&gt;The objective of the task is to predict whether a question gets an upvoted answer within 1 day, given Quora question text and topic data.&lt;/p&gt;
+&lt;p&gt;I built two classfiers - one based on text features and one based on categorical features, and then built a linear combinator based on the prob output from these two classifiers. The code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;nltk.corpus&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;stopwords&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.feature_extraction.text&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;CountVectorizer&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.feature_extraction.text&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;TfidfTransformer&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.naive_bayes&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MultinomialNB&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.linear_model&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;LogisticRegression&lt;/span&gt;
+
+
+&lt;span class="n"&gt;english_stopwords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;stopwords&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;words&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;english&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;english_punctuations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;(&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;[&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;amp;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;@&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;#&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;%&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;IS_LOCAL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;load&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="n"&gt;TRAIN_N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="n"&gt;train_docs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+    &lt;span class="n"&gt;TEST_N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="n"&gt;test_docs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;IS_LOCAL&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;sample/answered_data_10k.in&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdin&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;ind&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;ind&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;TRAIN_N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;ind&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;TRAIN_N&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;ind&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;TRAIN_N&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;TEST_N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;verify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;actual_dict&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_dict&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;correct_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;pred_dict&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iteritems&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="n"&gt;true_v&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;actual_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;true_v&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;correct_count&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;correct_count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pred_dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;question_text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;context_topic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;context_topic&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;topics&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;topics&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;context_topic_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;context_topic&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;context_topic_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;context_topic&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;topic_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;topics&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;topic&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;topics&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;topic_text&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;topic&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;context_topic_text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;topic_text&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;text_clf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;vectorizer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;CountVectorizer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stop_words&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;english_stopwords&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;corpus&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vectorizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;corpus&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;tfidf_transformer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TfidfTransformer&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tfidf_transformer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;__ans__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;classifier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MultinomialNB&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;corpus&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;get_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;vectorizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;corpus&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tfidf_transformer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;predictions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;pred_prob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;classifier&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict_proba&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;predictions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_prob&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;cat_clf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;is_anonymous&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;anonymous&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+            &lt;span class="n"&gt;is_anonymous&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+        &lt;span class="n"&gt;cat_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.85&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;topics&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+        &lt;span class="n"&gt;cat_following_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.85&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;followers&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;topics&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]))&lt;/span&gt;
+        &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;is_anonymous&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cat_count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cat_following_count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;
+
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;__ans__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;clf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;LogisticRegression&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tol&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1e-8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;penalty&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;l2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;doc&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;extract&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;doc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;pred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;pred_prob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict_proba&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;pred&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_prob&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;build_model&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;text_pred1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text_prob1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;text_clf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;text_pred2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text_prob2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cat_clf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text_prob1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;text_prob2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;2.0&lt;/span&gt;
+
+    &lt;span class="n"&gt;pred_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;ind&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prob&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;mark&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;mark&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+        &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;__ans__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;question_key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ind&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;question_key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dumps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;
+        &lt;span class="n"&gt;pred_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ind&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;question_key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mark&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;IS_LOCAL&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;actual_dict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;sample/answered_data_10k.out&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+            &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;actual_dict&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;question_key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;__ans__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;verify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;actual_dict&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pred_dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;build_model&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_docs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_docs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Thu, 15 Aug 2013 22:16:00 +0200</pubDate><guid>tag:,2013-08-15:quora-ml-problem.html</guid><category>machine-learning</category><category>python</category><category>scikit-learn</category></item><item><title>A Twitter Bot for programming.reddit</title><link>/a-twitter-bot-for-programmingreddit.html</link><description>&lt;p&gt;Being a long-term programming.reddit reader, I have tried many ways (web
 browsing, GReader, and now by following @reddit_prog on twitter) to
 follow stories appearing there. Following @reddit_prog is very
 comfortable for me, because it saved me a lot of time and it is easy to
@@ -23,4 +324,322 @@ corresponding comments exceed 5. If so, the title of the story, the
 original link and the reddit link of the story are extracted and sent
 out.&lt;/p&gt;
 &lt;p&gt;Have a try and reduce a bit of your information overload!
-&lt;a href="http://twitter.com/reddit_prog_hot"&gt;@reddit_prog_hot&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:a-twitter-bot-for-programmingreddit.html</guid><category>[]</category></item></channel></rss>
+&lt;a href="http://twitter.com/reddit_prog_hot"&gt;@reddit_prog_hot&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:a-twitter-bot-for-programmingreddit.html</guid><category>[]</category></item><item><title>Clustered Hacker News</title><link>/clustered-hacker-news.html</link><description>&lt;h3&gt;The goal&lt;/h3&gt;
+&lt;p&gt;Topic based organization of information sources might be a solution to
+the information (cognition) overload problem on the social Web. For
+example, There are lots of news posted everyday on Hacker News, a
+startup news aggregation site. The problem is that different users have
+different preference on the type of news on HN, some may interest in
+startup stories, while others prefer programming stories. Therefore, I
+implemented this experimental idea to cluster the frontpage stories on
+HN, based on the topic of the stories.&lt;/p&gt;
+&lt;h3&gt;The demo page&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://dataoptimize.appspot.com/hncluster"&gt;http://dataoptimize.appspot.com/hncluster&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;The algorithm&lt;/h3&gt;
+&lt;p&gt;The algorithm is standard hierarchical clustering - recursively
+combining the most similar resources to construct a hierarchical tree.&lt;/p&gt;
+&lt;h4&gt;Steps&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;For each news of the 30 stories, we extract its top tags in
+    delicious, its comments on HN, and its original content.&lt;/li&gt;
+&lt;li&gt;For the collection of 30 stories, we extract the features of each
+    stories using TF-iDF&lt;/li&gt;
+&lt;li&gt;Run hierarchical clustering&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;The screenshot&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/clusteredhn.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;The implementation&lt;/h3&gt;
+&lt;p&gt;Libraries and APIs:
+&lt;a href="http://www.michael-noll.com/projects/delicious-python-api/"&gt;deliciousapi&lt;/a&gt;,
+&lt;a href="http://www.alchemyapi.com/"&gt;alchemyapi&lt;/a&gt;.
+&lt;a href="http://api.ihackernews.com/"&gt;ihackernews&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;CSS inspired by &lt;a href="http://scaledinnovation.com/analytics/trees/dendrograms.html"&gt;Representing Trees with
+Dendrograms&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Open problems&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Currently only the stories on the frontpage are clustered. The data
+    is not very large.&lt;/li&gt;
+&lt;li&gt;Currently the clustering accuracy is not very good. More advanced
+    algorithms are needed.&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:clustered-hacker-news.html</guid><category>[]</category></item><item><title>Contextual Subtitle for Language Learning</title><link>/contextual-subtitle-for-language-learning.html</link><description>&lt;p&gt;As a Chinese, I occasionally learn oral English via watching American TV
+Series. One problem is about the subtitle. If I use the Chinese
+subtitle, then I rely on the subtitle for understanding, rather than
+"hearing"; otherwise, if I use the English subtitle, then there are
+regular words that are out of my vocabulary, which makes the experience
+not enjoyable. Then I come up with the idea - a mixed subtitle.&lt;/p&gt;
+&lt;p&gt;I wrote a python script to perform the creation of the mixed subtitle,
+which go through the English subtitle file (.srt format) of the movie to
+check for unacquainted word and add the Chinese translation of the word
+immediately after the word. Here are two screenshots from the subtitle
+generated for &lt;em&gt;The Big Bang theory season 2&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/movie1.jpg" /&gt;
+&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/movie2.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;To perform the generation, first I need an English-Chinese dict. The
+&lt;a href="http://projects.ldc.upenn.edu/Chinese/"&gt;LDC&lt;/a&gt; provides an such
+&lt;a href="http://www.ldc.upenn.edu/Projects/Chinese/docs/ldc_ec_dict.2.0.txt"&gt;wordlist&lt;/a&gt;.
+Second, an common English word list is needed. This is very easy to
+find. I use
+&lt;a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYwdECDA/known.txt"&gt;resouce1&lt;/a&gt;,
+&lt;a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYorICDA/known3000.txt"&gt;resource2&lt;/a&gt;,
+and
+&lt;a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYqdkCDA/knownVOA.txt"&gt;resouce3&lt;/a&gt;
+as the known wordlist. &lt;a href="http://blog.hanxiaogang.com/blog/2012/02/29/media/aghjb2RpbmdhaXINCxIFTWVkaWEYkeECDA/local.txt"&gt;One more
+file&lt;/a&gt;
+is created to store the words frequently appears in the movie I am
+watching (such as names).&lt;/p&gt;
+&lt;p&gt;The source code file can be download from the github
+&lt;a href="http://gist.github.com/647077"&gt;gist&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Problems&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;There are still many words not included in this corpus, which are
+    therefore not translated if any;&lt;/li&gt;
+&lt;li&gt;The known wordlist is fixed, which is not a good model of each
+    individual audience. There might be some computational model to
+    simulate the vocabulary of a user, which I will explore in the
+    future.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Todos&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;introduce larger English-Chinese dict;&lt;/li&gt;
+&lt;li&gt;more contextual translation for word sense disambiguation;&lt;/li&gt;
+&lt;li&gt;dynamic personal vocabulary modeling;&lt;/li&gt;
+&lt;li&gt;contextual subtitle as a service: build a website to provide
+    personalized vocabulary modeling and mixed subtitle generation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Anyway, the current version is already in use:). I have enjoyed many
+episodes of The Big Bang Theory with the mixed subtitle.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:contextual-subtitle-for-language-learning.html</guid><category>[]</category></item><item><title>Parsing Evernote export file (.enex) using Python</title><link>/parsing-evernote-export-file-enex-using-python.html</link><description>&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;My wife keeps all the stories written about our baby in Evernote and
+then publishes them on her blog every few days. Recently, as the baby
+boy is going to celebrate his first birthday, my wife plans to publish
+the stories as a book. This post is about how I exported the notes into
+xml, parsed &amp;amp; cleaned up the xml file into plain text before converting
+it to TeX format.&lt;/p&gt;
+&lt;h3&gt;Step1 - Export notes&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/evernote1.png" /&gt;
+&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/evernote2.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;Step2 - Parsing&lt;/h3&gt;
+&lt;p&gt;The scripts used to parse the enex file exported from Evernote:&lt;/p&gt;
+&lt;p&gt;{% highlight python %}
+from lxml import etree
+from StringIO import StringIO&lt;/p&gt;
+&lt;p&gt;p = etree.XMLParser(remove_blank_text=True, resolve_entities=False)
+def parseNoteXML(xmlFile):
+    context = etree.iterparse(xmlFile, encoding='utf-8', strip_cdata=False)
+    note_dict = {}
+    notes = []
+    for ind, (action, elem) in enumerate(context):
+        text = elem.text
+        if elem.tag == 'content':
+            text = []
+            r = etree.parse(StringIO(elem.text.encode('utf-8')), p)
+            for e in r.iter():
+                try:
+                    text.append(e.text)
+                except:
+                    print 'cannot print'
+        note_dict[elem.tag] = text
+        if elem.tag == "note":
+            notes.append(note_dict)
+            note_dict = {}
+    return notes&lt;/p&gt;
+&lt;p _="%" endhighlight="endhighlight"&gt;if &lt;strong&gt;name&lt;/strong&gt; == '&lt;strong&gt;main&lt;/strong&gt;':
+    notes = parseNoteXML('mynote.enex')&lt;/p&gt;
+&lt;p&gt;A typical enex file:&lt;/p&gt;
+&lt;p _="%" endhighlight="endhighlight"&gt;{% highlight xml %}
+&amp;lt;?xml version="1.0" encoding="UTF-8"?&amp;gt;
+&amp;lt;!DOCTYPE en-export SYSTEM "http://xml.evernote.com/pub/evernote-export2.dtd"&amp;gt;
+  &lt;en-export export-date="20120727T073610Z" application="Evernote" version="Evernote Mac 3.0.5 (209942)"&gt;
+    &lt;note&gt;
+      &lt;title&gt;Vim Tips&lt;/title&gt;
+      &lt;content&gt;
+      &amp;lt;![CDATA[&amp;lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&amp;gt;
+        &amp;lt;!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"&amp;gt;
+          &lt;en-note style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;"&gt;
+    yank for copy, delete for cut, put for parse
+    &lt;div&gt;
+            &lt;br/&gt;
+          &lt;/div&gt;
+          &lt;div&gt;Move in context, not position&lt;/div&gt;
+          &lt;div&gt;/ search forward&lt;/div&gt;
+          &lt;div&gt;? search backward&lt;/div&gt;
+          &lt;div&gt;n repeat last search&lt;/div&gt;
+          &lt;div&gt;N repeat last search but in the opposite direction&lt;/div&gt;
+          &lt;div&gt;tx move to 'x'&lt;/div&gt;
+          &lt;div&gt;fx find 'x'&lt;/div&gt;
+        &lt;/en-note&gt;
+    ]]&amp;gt;
+      &lt;/content&gt;
+      &lt;created&gt;20101229T161500Z&lt;/created&gt;
+      &lt;updated&gt;20101231T161039Z&lt;/updated&gt;
+      &lt;note-attributes/&gt;
+    &lt;/note&gt;
+  &lt;/en-export&gt;&lt;/p&gt;
+&lt;p&gt;The parsing result for the enex file:&lt;/p&gt;
+&lt;p _="%" endhighlight="endhighlight"&gt;{% highlight python %}
+[{'content': ['\nyank for copy, delete for cut, put for parse\n',
+              None,
+              None,
+              'Move in context, not position',
+              '/ search forward',
+              '? search backward',
+              'n repeat last search',
+              'N repeat last search but in the opposite direction',
+              "tx move to 'x'",
+              "fx find 'x'"],
+  'created': '20101229T161500Z',
+  'note': None,
+  'note-attributes': None,
+  'title': 'Vim Tips',
+  'updated': '20101231T161039Z'}]&lt;/p&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;The source is avaiable as a &lt;a href="https://gist.github.com/3186646"&gt;gist&lt;/a&gt;.
+Hope it helpful if you face the similar situations.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:parsing-evernote-export-file-enex-using-python.html</guid><category>[]</category></item><item><title>shouldinvent</title><link>/shouldinvent.html</link><description>&lt;p&gt;My new side project -
+&lt;a href="http://shouldinvent.hanxiaogang.com/"&gt;ShouldInvent&lt;/a&gt; is online, which is
+basically an automatic idea aggregation web application based on Twitter
+Search. The primary motivation is to provide inspirations for engineers
+in various domains.&lt;/p&gt;
+&lt;p&gt;The project is initially inspired by
+&lt;a href="http://twitter.com/#!/sivers/status/77683713793736704"&gt;one&lt;/a&gt; of
+&lt;a href="http://twitter.com/#!/sivers"&gt;sivers&lt;/a&gt;'s tweets:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://twitter.com/#!/sivers"&gt;@sivers&lt;/a&gt; Derek Sivers - Entrepreneurs,
+need inspiration for what to invent Try this:
+&lt;a href="http://search.twitter.com/q=%22should+invent%22"&gt;http://search.twitter.com/q=%22should+invent%22&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;After thought about it for a minutes, I asked myself - how about create
+an app that search Twitter periodically for "should invented" things?
+Can great ideas be mined from such informally mentioned things?&lt;/p&gt;
+&lt;p&gt;The algorithm behind the application is illustrated in the following
+figure.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/how.png" /&gt;
+The application works like this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;periodically, a bot is called to search Twitter using keywords
+    "should invent" (also "should develop");&lt;/li&gt;
+&lt;li&gt;naive natural language processing techniques like tokenizing and
+    chunking is then performed on the content of tweets to identify the
+    target objects;&lt;/li&gt;
+&lt;li&gt;finally, each of the target objects are automatic classified into
+    hierarchical categories.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Based on tweets collected in the last month, the &lt;a href="http://shouldinvent.hanxiaogang.com/%20sort=tweet_count&amp;amp;dir=asc"&gt;"most desired
+inventions"&lt;/a&gt;
+on Twitter are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://shouldinvent.hanxiaogang.com/invent/1"&gt;mirror&lt;/a&gt; [4899 tweets]
+    a mirror that takes pictures&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://shouldinvent.hanxiaogang.com/invent/1664"&gt;waterproof&lt;/a&gt; ipod
+    [414 tweets] a waterproof ipod&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://shouldinvent.hanxiaogang.com/invent/234"&gt;snooze button&lt;/a&gt; [366
+    tweets] a snooze button that hits back&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://shouldinvent.hanxiaogang.com/invent/172"&gt;food machine&lt;/a&gt; [223
+    tweets] a food machine where when you ask for something&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://shouldinvent.hanxiaogang.com/invent/138"&gt;version of twitter&lt;/a&gt;
+    [89 tweets] a version of twitter for people who spell things like
+    rappers&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The current named entry recognition and classification algorithm are by
+no means perfect and still need to be improved over time. On the other
+hand, the UI need improvement as I am not a competent designer. But at
+least it appears to work.&lt;/p&gt;
+&lt;p&gt;Go to the &lt;a href="http://shouldinvent.hanxiaogang.com/"&gt;website&lt;/a&gt; and happy
+"steal" ideas from Twitter!&lt;/p&gt;
+&lt;p&gt;Any feedback are appreciated and welcomed.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:shouldinvent.html</guid><category>[]</category></item><item><title>Statistical analysis on usethis.com tool usage patterns</title><link>/statistical-analysis-on-usethiscom-tool-usage-patterns.html</link><description>&lt;p&gt;&lt;a href="http://usesthis.com/"&gt;The Setup&lt;/a&gt; is a "nerdy interview website asking
+people from all walks of life what they use to get the job done". I am
+pretty interested in the tools mentioned in the interviews and their
+usage patterns. Therefore I created a
+&lt;a href="http://usethistool.appspot.com/"&gt;webapp&lt;/a&gt; for users to explore the
+tools, users, user categories and year trend patterns. With the
+&lt;a href="http://usethistool.appspot.com/"&gt;webapp&lt;/a&gt;, you can find out the answer
+to the questions such as:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://usethistool.appspot.com/"&gt;What are the most popular hardware and
+softwire?&lt;/a&gt; For each tool, i.e.
+&lt;a href="http://usethistool.appspot.com/tool/TextMate"&gt;TextMate&lt;/a&gt;, who are using
+it? what type of users are using it? What else tools are used by the
+users using this tool? How the tool grows during 2009 - 2012?&lt;/p&gt;
+&lt;p&gt;For each year during 2009-2012, i.e.
+&lt;a href="http://usethistool.appspot.com/year/2009"&gt;2009&lt;/a&gt;, Who are the users
+interviewed in this year? what tools these users use? what are the
+categories of these users?&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://usethistool.appspot.com/categories"&gt;What are the most popular categories do all the users fall
+in?&lt;/a&gt; For each category, i.e.
+&lt;a href="http://usethistool.appspot.com/category/designer"&gt;designer&lt;/a&gt;, who are in
+this category? what tools do users in this category use? what is the
+trend during 2009-2012?&lt;/p&gt;
+&lt;p&gt;The Webpp: &lt;a href="http://usethistool.appspot.com/"&gt;Use This Tool&lt;/a&gt;. A
+screenshot:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/usethistool.jpg" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:statistical-analysis-on-usethiscom-tool-usage-patterns.html</guid><category>[]</category></item><item><title>The Setup Tools Usage Statistics</title><link>/the-setup-tools-usage-statistics.html</link><description>&lt;p&gt;&lt;a href="http://usesthis.com/"&gt;The Setup&lt;/a&gt; is an interesting interview website.
+When browsing the latest interview there yesterday, I come out with the
+idea to do a simple statistics on the tool usage patterns for the people
+interviewed. The first statistic is about the frequency of tools
+mentioned by all people. Here is the
+&lt;a href="http://codingai.appspot.com/demo/usesthis"&gt;result&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There might be noise in the table as I simply grabbed all the links on
+individual page, and manually filtered out unrelated links and those
+links mentioned only once. The python code is available on
+&lt;a href="https://gist.github.com/673769"&gt;gist.github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Appendix - screenshot for the first page&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/usesthis.jpeg" /&gt;&lt;/p&gt;
+&lt;p&gt;{% include JB/setup %}&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:the-setup-tools-usage-statistics.html</guid><category>[]</category></item><item><title>tweet length distribution</title><link>/tweet-length-distribution.html</link><description>&lt;h3&gt;My version&lt;/h3&gt;
+&lt;p&gt;( 52,261,787.tweets from 20388 random users)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/dist.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;Isaac Hepworth's.version&lt;/h3&gt;
+&lt;p&gt;(1 million tweets, retweets included)
+&lt;a href="https://twitter.com/#!/isaach/status/155437871149481984"&gt;link&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/isaac.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;Will Fitzgerald.'s version&lt;/h3&gt;
+&lt;p&gt;(50k tweets)
+&lt;a href="http://willwhim.wordpress.com/2012/01/07/distribution-of-tweet-lengths/"&gt;link&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/will.png" /&gt;
+Seems like the distribution in my statistics result is just between the
+other two curves. Is there really spikes in between 20-40 and near 135.&lt;/p&gt;
+&lt;h3&gt;Extra Statistics&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Average tweet length by users (20388 users)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/avglen_users.png" /&gt;
+-   Client usage&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/client_dist.png" /&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:tweet-length-distribution.html</guid><category>[]</category></item><item><title>Using Google Books API to Improve NTU Library Book Search</title><link>/using-google-books-api-to-improve-ntu-library-book-search.html</link><description>&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;NTU library search
+(&lt;a href="http://ntulibrarysearch.appspot.com/"&gt;http://ntulibrarysearch.appspot.com/&lt;/a&gt;)
+is an app to facilitate searching books in &lt;a href="http://opac.ntu.edu.sg/"&gt;NTU
+library&lt;/a&gt; with improved accuracy and relevance.
+It is powered by &lt;a href="http://code.google.com/apis/books/"&gt;Google Books search
+api&lt;/a&gt;. The application is deployed on
+Google Appengine and the &lt;a href="https://github.com/chrishan/ntulibrarysearch"&gt;source
+code&lt;/a&gt; is available on
+GitHub.&lt;/p&gt;
+&lt;h3&gt;Why?&lt;/h3&gt;
+&lt;p&gt;The book search provided by NTU is pretty poor. I can seldom find the
+most relevant books. Below are some search examples for comparison.&lt;/p&gt;
+&lt;h4&gt;"game engine"&lt;/h4&gt;
+&lt;p&gt;Books returned from NTU library for "game engine"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/gameenginentu.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Books returned from the app for "game engine"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/gameenginemine.jpg" /&gt;&lt;/p&gt;
+&lt;h3&gt;"ruby"&lt;/h3&gt;
+&lt;p&gt;Books returned from NTU library for "ruby"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/rubyntu.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Books returned from the app for "ruby"&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="http://hanxiaogang.com/site_media/static/images/posts/rubymine.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;It is very obvious that the results returned from NTU library search are
+of low relevance and even confusing. On the other hand, the results from
+the app are very accurate.&lt;/p&gt;
+&lt;h3&gt;How it works&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;submit query keywords to the server;&lt;/li&gt;
+&lt;li&gt;Retrieve top matched books from Google Books API;&lt;/li&gt;
+&lt;li&gt;Using ISBN of retrieved books to query NTU library&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Known Limitations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Only the first page (8 books) of books was retrieved from Google
+    Books API. Therefore the search result shown is always less than 8
+    books&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Final Words&lt;/h3&gt;
+&lt;p&gt;Putting Google Books search api on top of the library search interface
+is very simple and the resulting improvement is very obvious for me.
+Hopefully the NTU library will adapt such advanced search api to their
+database to make their search function usable.&lt;/p&gt;
+&lt;p&gt;Dear all NTU library users, please try the app
+(&lt;a href="http://ntulibrarysearch.appspot.com/"&gt;http://ntulibrarysearch.appspot.com/&lt;/a&gt;)
+and save your time find the books you want.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Han Xiaogang</dc:creator><pubDate>Sat, 22 Sep 2012 00:00:00 +0200</pubDate><guid>tag:,2012-09-22:using-google-books-api-to-improve-ntu-library-book-search.html</guid><category>[]</category></item></channel></rss>

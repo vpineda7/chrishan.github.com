@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>A Twitter Bot for programming.reddit</title>
+        <title>SSH Login Without Password</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -16,8 +16,8 @@
                 <nav><ul>
                     <li><a href="/pages/project.html">Project</a></li>
                     <li><a href="/pages/research.html">Research</a></li>
-                    <li class="active"><a href="/category/.html"></a></li>
-                    <li><a href="/category/coding.html">Coding</a></li>
+                    <li><a href="/category/.html"></a></li>
+                    <li class="active"><a href="/category/coding.html">Coding</a></li>
                     <li><a href="/category/productivity.html">Productivity</a></li>
                     <li><a href="/category/python.html">Python</a></li>
                     <li><a href="/category/writing.html">Writing</a></li>
@@ -27,46 +27,48 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/a-twitter-bot-for-programmingreddit.html" rel="bookmark"
-           title="Permalink to A Twitter Bot for programming.reddit">A Twitter Bot for programming.reddit</a></h1>
+        <a href="/ssh-login.html" rel="bookmark"
+           title="Permalink to SSH Login Without Password">SSH Login Without Password</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2012-09-22T00:00:00">
-                Published: Sat 22 September 2012
+        <abbr class="published" title="2014-06-27T13:20:00">
+                Published: Fri 27 June 2014
         </abbr>
 
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/han-xiaogang.html">Han Xiaogang</a>
         </address>
-<p>In <a href="/category/.html"></a>. </p>
-<p>tags: <a href="/tag/.html">[]</a> </p>
-</footer><!-- /.post-info -->      <p>Being a long-term programming.reddit reader, I have tried many ways (web
-browsing, GReader, and now by following @reddit_prog on twitter) to
-follow stories appearing there. Following @reddit_prog is very
-comfortable for me, because it saved me a lot of time and it is easy to
-skip irrelevant stories at hand. The problems is that there are still
-too much information dumped by it, most of which are irrelevant
-information. This inspired me to write a programming.reddit twitter bot.</p>
-<p>The bot <a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a> works
-by continuously monitoring hot feeds on
-<a href="http://www.reddit.com/r/programming/">http://www.reddit.com/r/programming/</a>.
-Once a story reaches 5 comments, it will tweet it.</p>
-<p>The bot is deployed on <a href="http://code.google.com/appengine/">Google
-Appengine</a> with its <a href="http://code.google.com/appengine/docs/python/config/cron.html">cron
-service</a>.
-<a href="http://github.com/joshthecoder/tweepy">Tweepy</a> is used to send new
-tweets. <a href="http://www.feedparser.org/">Feedparser</a> is used to parse the
-feed
-(<a href="http://www.reddit.com/r/programming/.rss">http://www.reddit.com/r/programming/.rss)</a>).
-<a href="http://bit.ly/">Bit.ly</a> api is used to shorten the URLs. Every 1 hour
-the bot check for stories on programming.reddit and whether the
-corresponding comments exceed 5. If so, the title of the story, the
-original link and the reddit link of the story are extracted and sent
-out.</p>
-<p>Have a try and reduce a bit of your information overload!
-<a href="http://twitter.com/reddit_prog_hot">@reddit_prog_hot</a></p>
+<p>In <a href="/category/coding.html">Coding</a>. </p>
+<p>tags: <a href="/tag/ssh.html">ssh</a> </p>
+</footer><!-- /.post-info -->      <p>Suppose you want to access to Linux machine B from windows machine A. Here is the steps to setup passwordless ssh login.</p>
+<h2>Generate public/private keys on local machine A</h2>
+<ol>
+<li>
+<p>Use PuttyGEN to generate public/private keys and save them to the same directory on <em>machine A</em>. For the public key, copy the generated key from the textbox rather than clicking the save button (use <code>ssh-keygen -t dsa</code> to generate the keys in ~/.ssh if on linux)</p>
+</li>
+<li>
+<p>Copy the generated public key to machine B</p>
+</li>
+</ol>
+<h2>Configure public key on the server B</h2>
+<div class="highlight"><pre><span class="n">mkdir</span> <span class="o">~/</span><span class="p">.</span><span class="n">ssh</span>
+<span class="n">cat</span> <span class="n">public_key</span> <span class="o">&gt;&gt;</span> <span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">authorized_keys</span>
+<span class="n">chmod</span> <span class="mi">700</span> <span class="p">.</span><span class="n">ssh</span>
+<span class="n">chmod</span> <span class="mi">600</span> <span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">authorized_keys</span>
+</pre></div>
+
+
+<h2>Login from machine A without password</h2>
+<ol>
+<li>Use Putty to ssh to the server (with the private key loaded at Putty-&gt;SSH-&gt;Auth)</li>
+</ol>
+<h2>Useful links</h2>
+<ul>
+<li>http://manjeetdahiya.com/2011/03/03/passwordless-ssh-login/</li>
+<li>http://askubuntu.com/questions/204400/ssh-public-key-no-supported-authentication-methods-available-server-sent-publ</li>
+</ul>
     </div><!-- /.entry-content -->
 
   </article>
