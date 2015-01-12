@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Han Xiaogang's Blog</title><link>http://blog.hanxiaogang.com/</link><description>Information Retrieval &amp; Data Mining | Data platform | Python | Growing toy ideas into next big things.</description><atom:link href="http://blog.hanxiaogang.com/feeds%5Chan-xiaogang.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 12 Jan 2015 15:59:00 +0100</lastBuildDate><item><title>Explore Youtube History</title><link>http://blog.hanxiaogang.com/explore-youtube-history.html</link><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Han Xiaogang's Blog</title><link>http://blog.hanxiaogang.com/</link><description>Information Retrieval &amp; Data Mining | Data platform | Python | Growing toy ideas into next big things.</description><atom:link href="http://blog.hanxiaogang.com/feeds%5Chan-xiaogang.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 12 Jan 2015 15:59:00 +0100</lastBuildDate><item><title>Explore Youtube History (of my son)</title><link>http://blog.hanxiaogang.com/explore-youtube-history.html</link><description>
 &lt;style type="text/css"&gt;
 
 /* General text, input and output cells */
@@ -1477,7 +1477,7 @@ span#checkpoint_status,span#autosave_status{font-size:small}
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
 &lt;p&gt;My 3 years old boy watched a lot of videos on Youtube over the 2 years (under supervision of the parents, of course). I roughly know his taste: car cartoon, LEGO, etc, but never have the chance to look into more details. As Youtube keeps &lt;a href="https://www.youtube.com/feed/history"&gt;your watch history&lt;/a&gt;, I finally have the time to look at the data and share my exploration of the valuable data in this post.&lt;/p&gt;
-&lt;h2 id="get-and-clean-the-data"&gt;Get and clean the data&lt;/h2&gt;
+&lt;h2 id="get-clean-the-data"&gt;Get &amp;amp; clean the data&lt;/h2&gt;
 &lt;h4 id="obtain-the-data"&gt;Obtain the data&lt;/h4&gt;
 &lt;p&gt;I have around 2000 videos in the history feed page. Initially I thought there should be tools available to download the data. I tried several tools but none can return me the full list. I don&amp;#39;t want to scrape the data myself, which basically need to deal with the authentication and ajax issues). So I simply clicked the &amp;quot;Load more&amp;quot; button multipe times to get all the videos. Finally I copied the video list using Chrome dev tools and saved it to a text file.&lt;/p&gt;
 &lt;h4 id="extract-videos-from-html"&gt;Extract videos from HTML&lt;/h4&gt;
