@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Han Xiaogang's Blog</title>
+  <title>Youtube History</title>
   <meta name="author" content="Han Xiaogang">
 
 
@@ -44,13 +44,11 @@
 </ul></nav>
   <div id="main">
     <div id="content">
-<div class="blog-index">
-  		<article>
+<div>
+  <article class="hentry" role="article">
 <header>
-      <h1 class="entry-title">
-        <a href="http://blog.hanxiaogang.com/setup-pelican.html">Setup Pelican</a>
-      </h1>
-      <p class="meta"><time datetime="2014-08-10T15:23:00" pubdate>Sun 10 August 2014</time></p>
+      <h1 class="entry-title">Youtube History</h1>
+      <p class="meta"><time datetime="2015-01-12T15:59:00" pubdate>Mon 12 January 2015</time></p>
 </header>
 
   <div class="entry-content"><p>Here is the simply step by step guide to setup pelican (3.4) on github pages</p>
@@ -70,38 +68,83 @@
 
 <h2>Connect to Github Pages</h2>
 <div class="highlight"><pre><span class="n">cd</span> <span class="n">myblog</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="err">@</span><span class="n">github</span><span class="p">.</span><span class="n">com ...</span></pre></div></div>
-  <footer>
-    <a rel="full-article" href="http://blog.hanxiaogang.com/setup-pelican.html">Read On &crarr;</a>
-  </footer>
-  		</article>
-  		<article>
-<header>
-      <h1 class="entry-title">
-        <a href="http://blog.hanxiaogang.com/style-check.html">style-check.py</a>
-      </h1>
-      <p class="meta"><time datetime="2014-01-25T17:16:00" pubdate>Sat 25 January 2014</time></p>
-</header>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="err">@</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">:</span><span class="n">username</span><span class="o">/</span><span class="n">username</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">.</span><span class="n">git</span> <span class="n">output</span>
+</pre></div>
 
-  <div class="entry-content"><p>Writing readable scientific papers is hard, especially for beginners. Although books (<a href="http://www.amazon.com/The-Elements-Style-Fourth-Edition/dp/020530902X">e.g., The Elements of Style</a>) and guides are written to promote the best practices, it is still desired that such guides can be automatically applied to our writing in the form of concrete suggestions.</p>
-<p><a href="http://www.cs.umd.edu/~nspring/software/style-check-readme.html">style-check.rb</a> is such ...</p></div>
-  <footer>
-    <a rel="full-article" href="http://blog.hanxiaogang.com/style-check.html">Read On &crarr;</a>
-  </footer>
-  		</article>
-<div class="pagination">
 
-  <br />
-</div></div>
+<ul>
+<li>
+<p>if you have existing files in this repo, delete all of them</p>
+</li>
+<li>
+<p>github app is your best friend if you are git beginner</p>
+</li>
+</ul>
+<h2>Edit the blog locally</h2>
+<ul>
+<li>run local server</li>
+</ul>
+<div class="highlight"><pre><span class="n">make</span> <span class="n">devserver</span>
+</pre></div>
+
+
+<ul>
+<li>write a post</li>
+</ul>
+<div class="highlight"><pre><span class="n">vim</span> <span class="n">myblog</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">newpost</span><span class="p">.</span><span class="n">md</span>
+</pre></div>
+
+
+<h2>Publish blog to github pages using git</h2>
+<p>Again, use Github App</p>
+<h2>Change theme</h2>
+<p>download the desired theme (e.g.pelican-octopress-theme) into pelican-env/lib/python2.7/site-packages/pelican/themes/pelican-octopress-theme-master</p>
+<p>In pelicanconf.py:</p>
+<div class="highlight"><pre><span class="n">THEME</span> <span class="o">=</span> <span class="err">&#39;</span><span class="n">pelican</span><span class="o">-</span><span class="n">octopress</span><span class="o">-</span><span class="n">theme</span><span class="o">-</span><span class="n">master</span><span class="err">&#39;</span>
+</pre></div>
+
+
+<h2>Custom domain name</h2>
+<div class="highlight"><pre><span class="n">cd</span> <span class="n">myblog</span><span class="o">/</span><span class="n">output</span><span class="o">/</span>
+<span class="n">touch</span> <span class="n">CNAME</span>
+<span class="n">echo</span> <span class="n">xxx</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span> <span class="o">&gt;</span> <span class="n">CNAME</span>
+</pre></div></div>
+    <footer>
+<p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">Han Xiaogang</span>
+  </span>
+<time datetime="2015-01-12T15:59:00" pubdate>Mon 12 January 2015</time>  <span class="categories">
+    <a class="category" href="http://blog.hanxiaogang.com/tag/pelican.html">pelican</a>
+  </span>
+</p><div class="sharing">
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hanxiaogang.com/youtube-history.html" data-via="xiaoganghan" data-counturl="http://blog.hanxiaogang.com/youtube-history.html" >Tweet</a>
+</div>    </footer>
+  </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+</div>
 <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
       <li class="post">
+          <a href="http://blog.hanxiaogang.com/explore-youtube-history.html">Explore Youtube History</a>
+      </li>
+      <li class="post">
+          <a href="http://blog.hanxiaogang.com/youtube-history.html">Youtube History</a>
+      </li>
+      <li class="post">
           <a href="http://blog.hanxiaogang.com/setup-pelican.html">Setup Pelican</a>
       </li>
       <li class="post">
-          <a href="http://blog.hanxiaogang.com/style-check.html">style-check.py</a>
+          <a href="http://blog.hanxiaogang.com/weibo-data.html">How to use the APIs to collect data from Sina Weibo</a>
+      </li>
+      <li class="post">
+          <a href="http://blog.hanxiaogang.com/ssh-login.html">SSH Login Without Password</a>
       </li>
     </ul>
   </section>
@@ -111,7 +154,6 @@
     <ul id="recent_posts">
         <li><a href="http://blog.hanxiaogang.com/category/.html"></a></li>
         <li><a href="http://blog.hanxiaogang.com/category/coding.html">Coding</a></li>
-        <li><a href="http://blog.hanxiaogang.com/category/data.html">data</a></li>
         <li><a href="http://blog.hanxiaogang.com/category/productivity.html">Productivity</a></li>
         <li><a href="http://blog.hanxiaogang.com/category/python.html">Python</a></li>
         <li><a href="http://blog.hanxiaogang.com/category/writing.html">writing</a></li>
@@ -121,7 +163,7 @@
 
   <section>
   <h1>Tags</h1>
-    <a href="http://blog.hanxiaogang.com/tag/.html">[]</a>,    <a href="http://blog.hanxiaogang.com/tag/pelican.html">pelican</a>,    <a href="http://blog.hanxiaogang.com/tag/git.html">git</a>,    <a href="http://blog.hanxiaogang.com/tag/weibo.html">weibo</a>,    <a href="http://blog.hanxiaogang.com/tag/cheetsheet.html">cheetsheet</a>,    <a href="http://blog.hanxiaogang.com/tag/scikit-learn.html">scikit-learn</a>,    <a href="http://blog.hanxiaogang.com/tag/style-check.html">style-check</a>,    <a href="http://blog.hanxiaogang.com/tag/youtube.html">youtube</a>,    <a href="http://blog.hanxiaogang.com/tag/sublime-text.html">sublime text</a>,    <a href="http://blog.hanxiaogang.com/tag/python.html">python</a>,    <a href="http://blog.hanxiaogang.com/tag/version-control.html">version-control</a>,    <a href="http://blog.hanxiaogang.com/tag/ssh.html">ssh</a>,    <a href="http://blog.hanxiaogang.com/tag/machine-learning.html">machine-learning</a>,    <a href="http://blog.hanxiaogang.com/tag/mercurial.html">mercurial</a>,    <a href="http://blog.hanxiaogang.com/tag/data.html">data</a>,    <a href="http://blog.hanxiaogang.com/tag/bash.html">bash</a>,    <a href="http://blog.hanxiaogang.com/tag/sns.html">sns</a>  </section>
+    <a href="http://blog.hanxiaogang.com/tag/.html">[]</a>,    <a href="http://blog.hanxiaogang.com/tag/pelican.html">pelican</a>,    <a href="http://blog.hanxiaogang.com/tag/git.html">git</a>,    <a href="http://blog.hanxiaogang.com/tag/weibo.html">weibo</a>,    <a href="http://blog.hanxiaogang.com/tag/cheetsheet.html">cheetsheet</a>,    <a href="http://blog.hanxiaogang.com/tag/mercurial.html">mercurial</a>,    <a href="http://blog.hanxiaogang.com/tag/style-check.html">style-check</a>,    <a href="http://blog.hanxiaogang.com/tag/scikit-learn.html">scikit-learn</a>,    <a href="http://blog.hanxiaogang.com/tag/sublime-text.html">sublime text</a>,    <a href="http://blog.hanxiaogang.com/tag/python.html">python</a>,    <a href="http://blog.hanxiaogang.com/tag/version-control.html">version-control</a>,    <a href="http://blog.hanxiaogang.com/tag/ssh.html">ssh</a>,    <a href="http://blog.hanxiaogang.com/tag/machine-learning.html">machine-learning</a>,    <a href="http://blog.hanxiaogang.com/tag/data.html">data</a>,    <a href="http://blog.hanxiaogang.com/tag/bash.html">bash</a>,    <a href="http://blog.hanxiaogang.com/tag/sns.html">sns</a>  </section>
 
 
 
@@ -166,11 +208,14 @@
 </aside>    </div>
   </div>
   <footer role="contentinfo"><p>
-    Copyright &copy;  2014  - Han Xiaogang -
+    Copyright &copy;  2012-2015  - Han Xiaogang -
   <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
 </p></footer>
 	<script type="text/javascript">
 	  var disqus_shortname = 'chrishan';
+          var disqus_identifier = '/youtube-history.html';
+          var disqus_url = 'http://blog.hanxiaogang.com/youtube-history.html';
+          var disqus_title = 'Youtube History';
 	  (function() {
 	    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 	    dsq.src = "//" + disqus_shortname + '.disqus.com/embed.js';
